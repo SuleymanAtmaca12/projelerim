@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Clinic — Yönetim Girişi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="brand-icon">🏥</div>
+      <h1>Smart Clinic</h1>
+      <p class="subtitle">Yönetim Paneline Giriş Yapın</p>
+
+      <form id="loginForm" class="login-form">
+        <div class="input-group">
+          <label>Kullanıcı Adı</label>
+          <input type="text" id="username" placeholder="admin" required autocomplete="username" />
+        </div>
+        <div class="input-group">
+          <label>Şifre</label>
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn-login" id="loginBtn">Giriş Yap</button>
+        <div id="errorMsg" class="error-msg"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Eğer zaten giriş yapmışsa dashboard'a at
+      if (localStorage.getItem('sc_token')) {
+        window.location.href = 'dashboard.html';
+      }
+
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('loginBtn');
+        const err = document.getElementById('errorMsg');
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        btn.textContent = 'Giriş yapılıyor...';
+        btn.disabled = true;
+        err.style.display = 'none';
+
+        try {
+          const res = await fetch('http://localhost:8000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            localStorage.setItem('sc_token', data.access_token);
+            window.location.href = 'dashboard.html';
+          } else {
+            err.textContent = data.detail || 'Giriş başarısız.';
+            err.style.display = 'block';
+            btn.textContent = 'Giriş Yap';
+            btn.disabled = false;
+          }
+        } catch (error) {
+          err.textContent = 'Sunucuya bağlanılamadı.';
+          err.style.display = 'block';
+          btn.textContent = 'Giriş Yap';
+          btn.disabled = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

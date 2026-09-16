@@ -1,11 +1,15 @@
-# Projelerim
+# Ders Atölyesi
 
-Sınıf ve atölye arayüzlerinin vitrini: [SuleymanAtmaca12/projelerim](https://github.com/SuleymanAtmaca12/projelerim)
+**Canlı arayüz:** https://suleymanatmaca12.github.io/projelerim/
 
-Kaynak kod (Python, modeller, agent’lar) bu repoda yok. Sadece denenebilir arayüzler var.
+GitHub’daki dosyalar kaynak. Yukarıdaki adreste berber, dişçi ve derin öğrenme arayüzleri tarayıcıda açılır.
+
+## Bu repoda ne var?
+
+HTML, CSS ve JavaScript vitrin kodu. Derin öğrenme anlatımı, sohbet demoları ve klinik arayüzü burada.
+
+Python, modeller ve agent kodları bu repoda yok; onlar yerelde çalışır.
 
 ## Vercel
 
-1. Bu repoyu import et
-2. **Root Directory:** `site`
-3. Deploy
+Root Directory: `site`

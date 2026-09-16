@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Akıllı Sebze Kasa</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7f4; margin: 0; }
+        .container { width: 520px; margin: 50px auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        h1 { text-align: center; color: #2e7d32; }
+        label { font-weight: bold; display: block; margin-top: 18px; }
+        input { width: 100%; padding: 12px; margin-top: 8px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { width: 100%; margin-top: 25px; padding: 14px; background: #2e7d32; color: white; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; }
+        .result { margin-top: 25px; padding: 20px; border-radius: 12px; background: #e8f5e9; border-left: 6px solid #2e7d32; }
+        img.preview { width: 100%; max-height: 220px; object-fit: contain; margin-top: 16px; border-radius: 12px; }
+        .small { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🥕 Akıllı Sebze Kasa</h1>
+    <form id="form">
+        <label>Bilgisayardan görsel yükle:</label>
+        <input type="file" id="image_file" accept="image/*">
+        <label>Veya görsel URL gir:</label>
+        <input type="text" id="image_url" placeholder="https://...jpg">
+        <button type="submit">Tahmin Et</button>
+    </form>
+    <img id="preview" class="preview" alt="" hidden>
+    <div id="out"></div>
+</div>
+<script>
+document.getElementById("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const file = document.getElementById("image_file").files[0];
+  const url = document.getElementById("image_url").value.trim();
+  const preview = document.getElementById("preview");
+  if (file) {
+    preview.src = URL.createObjectURL(file);
+    preview.hidden = false;
+  } else if (url) {
+    preview.src = url;
+    preview.hidden = false;
+  }
+  document.getElementById("out").innerHTML = `
+    <div class="result">
+      <h2>Arayüz demosu</h2>
+      <p><b>Sebze:</b> Domates</p>
+      <p><b>Güven:</b> %91.2</p>
+      <p><b>Kg Fiyatı:</b> 35 TL</p>
+      <p class="small">Bu ekran vitrin içindir. Gerçek Keras modeli ve eğitim kodu paylaşılmaz.</p>
+    </div>`;
+});
+</script>
+</body>
+</html>
