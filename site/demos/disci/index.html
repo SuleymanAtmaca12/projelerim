@@ -3,72 +3,46 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dişçi Asistan</title>
-  <link rel="stylesheet" href="chat.css?v=2" />
+  <title>Klinik Asistanı</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="chat.css?v=7" />
 </head>
 <body>
-  <div class="app">
-    <aside class="rail">
-      <div class="brand">
-        <div class="logo">🦷</div>
+  <div class="shell">
+    <header class="top">
+      <div class="who">
+        <div class="mark">🦷</div>
         <div>
-          <strong>Klinik Asistanı</strong>
-          <span>Fiyat · slot · kayıt</span>
+          <strong>Diş Kliniği</strong>
+          <span>Randevu asistanı · 7/24</span>
         </div>
       </div>
+      <button id="resetBtn" type="button">Sıfırla</button>
+    </header>
 
-      <h2>Tedaviler</h2>
-      <div class="cards">
-        <button class="svc" data-msg="Muayene fiyatı nedir?">
-          <b>Muayene</b>
-          <span>750 TL</span>
-        </button>
-        <button class="svc" data-msg="Dolgu fiyatı nedir?">
-          <b>Dolgu</b>
-          <span>2.500 TL</span>
-        </button>
-        <button class="svc" data-msg="Kanal tedavisi fiyatı nedir?">
-          <b>Kanal</b>
-          <span>4.500 TL</span>
-        </button>
-        <button class="svc" data-msg="Beyazlatma fiyatı nedir?">
-          <b>Beyazlatma</b>
-          <span>6.000 TL</span>
-        </button>
-      </div>
+    <div class="treats">
+      <button type="button" data-msg="Muayene fiyatı nedir?"><b>Muayene</b><small>750 TL</small></button>
+      <button type="button" data-msg="Dolgu fiyatı nedir?"><b>Dolgu</b><small>2.500 TL</small></button>
+      <button type="button" data-msg="Kanal tedavisi fiyatı nedir?"><b>Kanal</b><small>4.500 TL</small></button>
+      <button type="button" data-msg="Beyazlatma fiyatı nedir?"><b>Beyazlatma</b><small>6.000 TL</small></button>
+    </div>
 
-      <h2>Hekimler</h2>
-      <div class="people">
-        <div class="person"><i>A</i><div><b>Dr. Atakan</b><span>04 Şub 10:00</span></div></div>
-        <div class="person"><i>S</i><div><b>Dr. Süleyman</b><span>04 Şub 11:00</span></div></div>
-      </div>
-    </aside>
+    <div id="chat" class="chat"></div>
 
-    <section class="stage">
-      <header>
-        <div>
-          <p class="kicker">Tool kullanan klinik asistanı</p>
-          <h1>Dişçi Randevu Asistanı</h1>
-        </div>
-        <button id="resetBtn" type="button">Sıfırla</button>
-      </header>
-
-      <div id="chat" class="chat"></div>
-
-      <div class="chips" id="chips">
+    <footer class="dock">
+      <div class="chips">
         <button type="button" data-msg="Fiyat listesi nedir?">Fiyat listesi</button>
-        <button type="button" data-msg="2026-02-04 - 2026-02-06 randevu">Tarih aralığı</button>
+        <button type="button" data-msg="2026-02-04 - 2026-02-06 randevu">Tarih ara</button>
         <button type="button" data-msg="1">1. slot</button>
         <button type="button" data-msg="onaylıyorum">Onayla</button>
       </div>
-
-      <form id="form" class="composer">
-        <input id="input" type="text" placeholder="Örn. dolgu fiyatı veya 2026-02-04 - 2026-02-06" autocomplete="off" />
+      <form id="form">
+        <input id="input" type="text" placeholder="Tedavi veya tarih yazın…" autocomplete="off" />
         <button type="submit">Gönder</button>
       </form>
-      <p class="hint">Akış: fiyat sor → tarih aralığı ver → numarayı seç → ad/telefon yaz → onaylıyorum de.</p>
-    </section>
+    </footer>
   </div>
-  <script src="chat.js"></script>
+  <script src="chat.js?v=5"></script>
 </body>
 </html>

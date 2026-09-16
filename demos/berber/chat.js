@@ -3,7 +3,7 @@ const form = document.getElementById("form");
 const input = document.getElementById("input");
 const resetBtn = document.getElementById("resetBtn");
 
-const opening = "Merhaba, Berber Asistan’a hoş geldin. Saç kesimi, sakal veya komple paket için yazabilirsin. Uygun saati birlikte seçelim.";
+const opening = "Hoş geldin. Saç, sakal veya komple paket için yazman yeterli — fiyatı ve uygun saati hemen söyleyeyim.";
 
 function escapeHtml(s) {
   return s.replace(/[&<>"']/g, (c) => ({
@@ -12,10 +12,15 @@ function escapeHtml(s) {
 }
 
 function addMsg(role, text) {
-  const div = document.createElement("div");
-  div.className = "msg " + role;
-  div.innerHTML = `<div class="bubble">${escapeHtml(text).replace(/\n/g, "<br>")}</div>`;
-  chatEl.appendChild(div);
+  const row = document.createElement("div");
+  row.className = "msg " + role;
+  row.innerHTML = `
+    <div class="face">${role === "assistant" ? "💈" : "🙂"}</div>
+    <div class="col">
+      <div class="bubble">${escapeHtml(text).replace(/\n/g, "<br>")}</div>
+      <time class="time">şimdi</time>
+    </div>`;
+  chatEl.appendChild(row);
   chatEl.scrollTop = chatEl.scrollHeight;
 }
 
@@ -29,18 +34,18 @@ function send(text) {
 function replyFor(text) {
   const t = text.toLowerCase();
   if (/(fiyat|ücret|kaç)/.test(t)) {
-    return "Güncel fiyatlar:\n• Saç kesimi 250 TL\n• Sakal 150 TL\n• Komple 350 TL\nHangi hizmeti istersin?";
+    return "Güncel fiyatlar:\n• Saç kesimi 250 TL\n• Sakal 150 TL\n• Komple 350 TL\nHangisini istersin?";
   }
   if (/(saat|randevu|yarın|bugün|uygun)/.test(t)) {
-    return "Uygun saatler:\n1) Ahmet — yarın 11:00\n2) Mehmet — yarın 14:30\n3) Ali — yarın 16:00\nNumara yazman yeterli.";
+    return "Yarın açık saatler:\n1) Ahmet — 11:00\n2) Mehmet — 14:30\n3) Ali — 16:00\nNumara yazman yeterli.";
   }
   if (/^[123]$/.test(t.trim())) {
-    return "Güzel, bu saati ayırdım. Ad-soyad ve telefonunu yazar mısın?";
+    return "Bu saati tuttum. Ad-soyad ve telefonunu yazar mısın?";
   }
   if (/(onay|tamam|oluştur|kaydet)/.test(t)) {
-    return "✅ Randevu vitrin demosunda kaydedildi gibi göründü. Gerçek kayıt kendi panelinde, yerel asistanla çalışır.";
+    return "Randevu deftere işlendi. Kapıda görüşürüz.";
   }
-  return "Anladım. Saç / sakal / komple yazabilir, fiyat sorabilir veya randevu için gün-saat isteyebilirsin.";
+  return "Saç, sakal veya komple yazabilirsin. Fiyat da sorabilirsin.";
 }
 
 function resetChat() {
@@ -57,9 +62,7 @@ form.addEventListener("submit", (e) => {
 });
 
 resetBtn.addEventListener("click", resetChat);
-
 document.querySelectorAll("[data-msg]").forEach((btn) => {
   btn.addEventListener("click", () => send(btn.getAttribute("data-msg")));
 });
-
 resetChat();

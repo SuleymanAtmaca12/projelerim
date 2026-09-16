@@ -254,7 +254,9 @@ body {
 /* Floating nav toggle */
 .nav-toggle {
   position: fixed;
-  top: 20px; left: 20px;
+  top: 16px;
+  right: 16px;
+  left: auto;
   z-index: 200;
   width: 44px; height: 44px;
   background: rgba(13,13,31,.9);
@@ -1623,8 +1625,11 @@ canvas {
 .viz-code .code-block { margin: 0; }
 .viz-code canvas { width: 100%; }
 
+html.in-frame .nav-toggle { display: none !important; }
 html.in-frame .hero,
 html.in-frame .section { min-height: 0; }
+html.in-frame .section-header { gap: 16px; }
+html.in-frame .section-num { font-size: 2.4rem; }
 
 @media (max-width: 960px) {
   .hero {
