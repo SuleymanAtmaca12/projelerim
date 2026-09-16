@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dişçi Asistan</title>
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <p class="kicker">Klinik Asistanı</p>
+        <h1>Dişçi Randevu Asistanı</h1>
+      </div>
+      <button id="resetBtn" type="button">Sohbeti sıfırla</button>
+    </header>
+    <div id="chat" class="chat"></div>
+    <form id="form" class="composer">
+      <input id="input" type="text" placeholder="Örn. dolgu fiyatı, 2026-02-04 - 2026-02-06 randevu" autocomplete="off" />
+      <button type="submit">Gönder</button>
+    </form>
+    <p class="hint">Akış: fiyat sor → tarih aralığı ver → listedeki numarayı seç → ad/telefon yaz → onaylıyorum de.</p>
+  </div>
+  <script src="chat.js"></script>
+</body>
+</html>

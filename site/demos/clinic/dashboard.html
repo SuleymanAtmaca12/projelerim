@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Clinic — Admin Dashboard</title>
+  <meta name="description" content="Smart Clinic AI Destekli Klinik Yönetim Paneli — Randevular, Doktorlar, İstatistikler" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="dashboard.css" />
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🏥</div>
+      <div class="brand-text">
+        <span class="brand-name">Smart Clinic</span>
+        <span class="brand-sub">Admin Panel</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-tab="dashboard" id="nav-dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="calendar" id="nav-calendar">
+        <span class="nav-icon">📅</span>
+        <span>Takvim</span>
+        <span class="nav-badge" id="sidebar-badge">0</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="doctors" id="nav-doctors">
+        <span class="nav-icon">👨‍⚕️</span>
+        <span>Doktorlar</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="settings" id="nav-settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Ayarlar</span>
+      </a>
+      <a href="#" class="nav-item" style="margin-top:auto" onclick="logout(event)">
+        <span class="nav-icon">🚪</span>
+        <span>Çıkış Yap</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="ws-indicator" id="ws-indicator">
+        <span class="ws-dot"></span>
+        <span id="ws-status">Bağlanıyor...</span>
+      </div>
+      <a href="../frontend/landing.html" class="btn-outline-sm" target="_blank">🌐 Klinik Sayfası</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="page-title" id="pageTitle">Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <div class="ai-status-badge" id="aiStatusBadge">
+          <span class="pulse-dot"></span>
+          <span id="aiStatusText">AI Kontrol Ediliyor</span>
+        </div>
+        <div class="topbar-time" id="topbarTime"></div>
+      </div>
+    </header>
+
+    <script>
+      function logout(e) {
+        e.preventDefault();
+        localStorage.removeItem('sc_token');
+        window.location.href = 'login.html';
+      }
+    </script>
+
+    <!-- ── TAB: DASHBOARD ── -->
+    <div class="tab-content active" id="tab-dashboard">
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card" id="stat-total">
+          <div class="stat-icon">📋</div>
+          <div class="stat-body">
+            <div class="stat-value" id="statTotal">—</div>
+            <div class="stat-label">Toplam Randevu</div>
+          </div>
+          <div class="stat-trend up">+2 bugün</div>
+        </div>
+        <div class="stat-card" id="stat-today">
+          <div class="stat-icon">📅</div>
+          <div class="stat-body">
+            <div class="stat-value" id="statToday">—</div>
+            <div class="stat-label">Bugünkü Randevu</div>
+          </div>
+        </div>
+        <div class="stat-card" id="stat-branch">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-body">
+            <div class="stat-value" id="statBranch">—</div>
+            <div class="stat-label">En Talep Gören Branş</div>
+          </div>
+        </div>
+        <div class="stat-card" id="stat-doctors">
+          <div class="stat-icon">👨‍⚕️</div>
+          <div class="stat-body">
+            <div class="stat-value" id="statDoctors">—</div>
+            <div class="stat-label">Aktif Doktor</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Appointments -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Son Randevular</h2>
+          <button class="btn-primary" onclick="showTab('calendar')">Tümünü Gör →</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="recentTable">
+            <thead>
+              <tr>
+                <th>Hasta</th>
+                <th>Doktor</th>
+                <th>Şikayet</th>
+                <th>Tarih & Saat</th>
+                <th>Durum</th>
+              </tr>
+            </thead>
+            <tbody id="recentBody">
+              <tr><td colspan="5" class="loading-row">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: CALENDAR ── -->
+    <div class="tab-content" id="tab-calendar">
+      <div class="section-card">
+        <div class="section-header">
+          <h2>📅 Randevu Takvimi</h2>
+          <div class="calendar-controls">
+            <button class="btn-icon" id="prevMonth">‹</button>
+            <span class="cal-month-label" id="calMonthLabel"></span>
+            <button class="btn-icon" id="nextMonth">›</button>
+          </div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <div class="section-card" style="margin-top:20px">
+        <div class="section-header">
+          <h2>Tüm Randevular</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Hasta</th>
+                <th>Doktor</th>
+                <th>Şikayet</th>
+                <th>Tarih & Saat</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="allAppBody">
+              <tr><td colspan="6" class="loading-row">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: DOCTORS ── -->
+    <div class="tab-content" id="tab-doctors">
+      <div class="section-card">
+        <div class="section-header">
+          <h2>👨‍⚕️ Doktor Yönetimi</h2>
+          <button class="btn-primary" id="addDoctorBtn">+ Doktor Ekle</button>
+        </div>
+        <div class="doctor-grid" id="doctorGrid">
+          <div class="loading-row">Yükleniyor...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: SETTINGS ── -->
+    <div class="tab-content" id="tab-settings">
+      <div class="section-card">
+        <h2 style="margin-bottom:24px">⚙️ Bildirim Ayarları</h2>
+        <form id="settingsForm" class="settings-form">
+          <div class="form-row">
+            <label>Klinik Adı</label>
+            <input type="text" id="set-clinic_name" placeholder="Smart Clinic" />
+          </div>
+          <div class="form-row">
+            <label>Bildirim E-postası</label>
+            <input type="email" id="set-notification_email" placeholder="admin@klinik.com" />
+          </div>
+          <hr class="form-divider" />
+          <h3 style="color:var(--text-muted);margin-bottom:16px;font-size:14px;text-transform:uppercase;letter-spacing:1px">SMTP Ayarları</h3>
+          <div class="form-row">
+            <label>SMTP Sunucu</label>
+            <input type="text" id="set-smtp_host" placeholder="smtp.gmail.com" />
+          </div>
+          <div class="form-row">
+            <label>SMTP Port</label>
+            <input type="number" id="set-smtp_port" placeholder="587" />
+          </div>
+          <div class="form-row">
+            <label>SMTP Kullanıcı</label>
+            <input type="email" id="set-smtp_user" placeholder="mail@gmail.com" />
+          </div>
+          <div class="form-row">
+            <label>SMTP Şifre</label>
+            <input type="password" id="set-smtp_pass" placeholder="••••••••" />
+          </div>
+          <div class="form-row">
+            <label>Hatırlatıcı (Saat önce)</label>
+            <input type="number" id="set-reminder_hours" placeholder="24" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">💾 Kaydet</button>
+            <button type="button" class="btn-secondary" id="testMailBtn">📧 Test Mail Gönder</button>
+          </div>
+          <div class="form-feedback" id="settingsFeedback"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal: Doktor Ekle/Düzenle -->
+  <div class="modal-overlay" id="doctorModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Doktor Ekle</h3>
+        <button class="modal-close" id="closeModal">✕</button>
+      </div>
+      <form id="doctorForm" class="settings-form">
+        <input type="hidden" id="doctorId" />
+        <div class="form-row">
+          <label>Ad Soyad</label>
+          <input type="text" id="docName" placeholder="Dr. Ahmet Yılmaz" required />
+        </div>
+        <div class="form-row">
+          <label>Uzmanlık Alanı</label>
+          <input type="text" id="docSpecialty" placeholder="Diş Hekimi" required />
+        </div>
+        <div class="form-row">
+          <label>Çalışma Saatleri</label>
+          <input type="text" id="docHours" placeholder="09:00-17:00" required />
+        </div>
+        <div class="form-row">
+          <label>Çalışma Günleri</label>
+          <input type="text" id="docDays" placeholder="Pazartesi-Cuma" />
+        </div>
+        <div class="form-row">
+          <label>Telefon</label>
+          <input type="text" id="docPhone" placeholder="+90 555 000 0000" />
+        </div>
+        <div class="form-row">
+          <label>E-posta</label>
+          <input type="email" id="docEmail" placeholder="doktor@klinik.com" />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">💾 Kaydet</button>
+          <button type="button" class="btn-secondary" onclick="closeModal()">İptal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

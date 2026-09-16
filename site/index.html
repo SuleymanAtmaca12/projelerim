@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ders Atölyesi</title>
+  <meta name="description" content="Derin öğrenme, veri bilimi ve LLM agent ders projeleri — tek arayüzde vitrin." />
+  <meta property="og:title" content="Ders Atölyesi" />
+  <meta property="og:description" content="Sınıfta anlattığım projeler: CNN, RAG, multi-agent, klinik SaaS." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#home">
+      <div class="brand-mark">DA</div>
+      <div>
+        <strong>Ders Atölyesi</strong>
+        <span>İçerik vitrini</span>
+      </div>
+    </a>
+    <nav class="nav" id="nav"></nav>
+    <div class="sidebar-foot">
+      <p>Yeşil nokta: arayüzü burada açılır.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn" id="menuBtn" type="button">☰</button>
+      <div class="crumb">
+        <span id="crumbCat">Atölye</span>
+        <span class="sep">/</span>
+        <strong id="crumbTitle">Ana Sayfa</strong>
+      </div>
+      <div class="top-actions" id="topActions"></div>
+    </header>
+
+    <section class="home" id="homeView">
+      <div class="hero">
+        <p class="eyebrow">Portföy · 13 proje</p>
+        <h1>Sınıfta ürettiğim işler,<br />tek bir arayüzde.</h1>
+        <p class="lede">Derin öğrenme, müşteri analitiği ve LLM agent arayüzleri. Yeşil noktalı sekmeleri açıp deneyebilirsin. Proje kaynak kodları herkese açık paylaşılmaz.</p>
+        <div class="hero-links"></div>
+      </div>
+      <div class="groups" id="homeGroups"></div>
+    </section>
+
+    <section class="workspace hidden" id="workspace">
+      <iframe id="frame" title="Canlı demo"></iframe>
+    </section>
+
+    <section class="showcase hidden" id="showcase"></section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

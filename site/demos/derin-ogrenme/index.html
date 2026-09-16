@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Derin Öğrenme — İnteraktif Eğitim Platformu</title>
+  <meta name="description" content="Derin öğrenmeyi sıfırdan öğren. Nöronlar, katmanlar, ağırlıklar, bias ve aktivasyon fonksiyonları interaktif görsellerle." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===================== HERO ===================== -->
+  <header class="hero" id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-particles" id="heroParticles"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🧠 İnteraktif Eğitim Platformu</div>
+      <h1 class="hero-title">Derin Öğrenme<br /><span class="gradient-text">Sıfırdan Ustaya</span></h1>
+      <p class="hero-desc">Nöronlardan başla, derin ağlara ulaş. Her kavramı <strong>görsel</strong>, <strong>interaktif</strong> ve <strong>kodlu</strong> öğren.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-n">13</span><span class="stat-l">Bölüm</span></div>
+        <div class="stat"><span class="stat-n">∞</span><span class="stat-l">İnteraktif</span></div>
+        <div class="stat"><span class="stat-n">🐍</span><span class="stat-l">Python Kodu</span></div>
+      </div>
+      <a href="#bolumler" class="cta-btn">Öğrenmeye Başla <span class="cta-arrow">↓</span></a>
+    </div>
+    <div class="hero-network" id="heroNetwork"></div>
+  </header>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="side-nav" id="sideNav">
+    <div class="nav-logo">🧠 DL</div>
+    <ul class="nav-list">
+      <li><a href="#intro" class="nav-item" data-section="intro"><span class="nav-icon">🚀</span><span class="nav-text">Giriş</span></a></li>
+      <li><a href="#neuron" class="nav-item" data-section="neuron"><span class="nav-icon">⚡</span><span class="nav-text">Nöron</span></a></li>
+      <li><a href="#dataflow" class="nav-item" data-section="dataflow"><span class="nav-icon">🔀</span><span class="nav-text">Veri Akışı</span></a></li>
+      <li><a href="#weights" class="nav-item" data-section="weights"><span class="nav-icon">✖️</span><span class="nav-text">Ağırlıklar</span></a></li>
+      <li><a href="#bias" class="nav-item" data-section="bias"><span class="nav-icon">⚖️</span><span class="nav-text">Bias</span></a></li>
+      <li><a href="#forward" class="nav-item" data-section="forward"><span class="nav-icon">➡️</span><span class="nav-text">Forward</span></a></li>
+      <li><a href="#hidden" class="nav-item" data-section="hidden"><span class="nav-icon">🏗️</span><span class="nav-text">Hidden Layers</span></a></li>
+      <li><a href="#neurons-count" class="nav-item" data-section="neurons-count"><span class="nav-icon">🔢</span><span class="nav-text">Nöron Sayısı</span></a></li>
+      <li><a href="#activation" class="nav-item" data-section="activation"><span class="nav-icon">🌊</span><span class="nav-text">Aktivasyon</span></a></li>
+      <li><a href="#backprop" class="nav-item" data-section="backprop"><span class="nav-icon">↩️</span><span class="nav-text">Backprop</span></a></li>
+      <li><a href="#loss" class="nav-item" data-section="loss"><span class="nav-icon">📉</span><span class="nav-text">Loss</span></a></li>
+      <li><a href="#training" class="nav-item" data-section="training"><span class="nav-icon">🏋️</span><span class="nav-text">Eğitim & Epoch</span></a></li>
+      <li><a href="#cnn" class="nav-item" data-section="cnn"><span class="nav-icon">🖼️</span><span class="nav-text">CNN</span></a></li>
+    </ul>
+  </nav>
+
+  <main class="main-content" id="bolumler">
+
+    <!-- ===================== 1. GİRİŞ ===================== -->
+    <section class="section" id="intro">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">01</div>
+          <div>
+            <h2 class="section-title">Derin Öğrenme Nedir?</h2>
+            <p class="section-sub">Yapay zekanın beyni: Katman katman öğrenme</p>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="info-card accent-blue">
+            <div class="card-icon">🤖</div>
+            <h3>Yapay Zeka</h3>
+            <p>Makinelerin insan gibi düşünebilmesi için geliştirilen genel alan</p>
+          </div>
+          <div class="info-card accent-purple">
+            <div class="card-icon">📊</div>
+            <h3>Makine Öğrenmesi</h3>
+            <p>Verilerden örüntü öğrenen algoritmalar. YZ'nin alt kümesi</p>
+          </div>
+          <div class="info-card accent-pink glow">
+            <div class="card-icon">🧠</div>
+            <h3>Derin Öğrenme</h3>
+            <p>Çok katmanlı yapay sinir ağları kullanan ML alt dalı. <strong>Günümüzün gücü!</strong></p>
+          </div>
+        </div>
+
+        <!-- Hiyerarşi diyagramı -->
+        <div class="hierarchy-diagram">
+          <div class="hd-circle hd-ai">
+            <span>Yapay Zeka</span>
+            <div class="hd-circle hd-ml">
+              <span>Makine Öğrenmesi</span>
+              <div class="hd-circle hd-dl">
+                <span>Derin<br/>Öğrenme</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-icon">🧒→🎓</div>
+          <div>
+            <h3>Beyin Benzetmesi</h3>
+            <p>İnsan beyninde milyarlarca nöron birbirine bağlıdır. Derin öğrenme de bunu taklit eder: <strong>Yapay nöronlar</strong> katmanlar halinde bağlanır, veriden <strong>örüntü çıkarır</strong> ve zaman içinde <strong>öğrenir</strong>.</p>
+          </div>
+        </div>
+
+        <div class="use-cases">
+          <h3 class="uc-title">🌟 Kullanım Alanları</h3>
+          <div class="use-cases-grid">
+            <div class="use-case"><span>📸</span>Görüntü Tanıma</div>
+            <div class="use-case"><span>🗣️</span>Ses Tanıma</div>
+            <div class="use-case"><span>💬</span>Doğal Dil İşleme</div>
+            <div class="use-case"><span>🚗</span>Otonom Araçlar</div>
+            <div class="use-case"><span>🏥</span>Tıbbi Teşhis</div>
+            <div class="use-case"><span>🎮</span>Oyun Zekası</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 2. NÖRON ===================== -->
+    <section class="section" id="neuron">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">02</div>
+          <div>
+            <h2 class="section-title">Tekli & Çoklu Nöron</h2>
+            <p class="section-sub">Temel yapı taşı: Yapay nöron nasıl çalışır?</p>
+          </div>
+        </div>
+
+        <!-- Tek Nöron -->
+        <div class="subsection">
+          <h3 class="subsection-title">⚡ Tek Nöron (Perceptron)</h3>
+          <div class="neuron-demo">
+            <div class="neuron-demo-inputs">
+              <div class="nd-input-group">
+                <label>x₁: <input type="range" id="x1" min="-5" max="5" step="0.1" value="2" /></label>
+                <span class="nd-val" id="x1Val">2.0</span>
+              </div>
+              <div class="nd-input-group">
+                <label>x₂: <input type="range" id="x2" min="-5" max="5" step="0.1" value="1" /></label>
+                <span class="nd-val" id="x2Val">1.0</span>
+              </div>
+              <div class="nd-input-group">
+                <label>w₁: <input type="range" id="w1" min="-2" max="2" step="0.1" value="0.5" /></label>
+                <span class="nd-val" id="w1Val">0.5</span>
+              </div>
+              <div class="nd-input-group">
+                <label>w₂: <input type="range" id="w2" min="-2" max="2" step="0.1" value="0.8" /></label>
+                <span class="nd-val" id="w2Val">0.8</span>
+              </div>
+              <div class="nd-input-group">
+                <label>b: <input type="range" id="bias1" min="-3" max="3" step="0.1" value="0.5" /></label>
+                <span class="nd-val" id="bias1Val">0.5</span>
+              </div>
+            </div>
+            <canvas id="neuronCanvas" width="500" height="280"></canvas>
+            <div class="neuron-result">
+              <div class="formula-box">
+                <div class="formula-label">Formül:</div>
+                <div class="formula-text">z = x₁·w₁ + x₂·w₂ + b</div>
+                <div class="formula-calc" id="formulaCalc">= 2×0.5 + 1×0.8 + 0.5 = 2.3</div>
+                <div class="formula-out">Çıktı (z) = <span id="zOut" class="highlight-num">2.3</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Çoklu Nöron -->
+        <div class="subsection">
+          <h3 class="subsection-title">🔗 Çoklu Nöron — Katman</h3>
+          <div class="multi-neuron-explain">
+            <p>Birden fazla nöronu <strong>aynı katmana</strong> koyduğumuzda, her nöron <strong>aynı girişleri</strong> alır ama <strong>farklı ağırlıklarla</strong> işler. Bu sayede farklı örüntüler öğrenilir.</p>
+          </div>
+          <canvas id="multiNeuronCanvas" width="650" height="320"></canvas>
+          <div class="multi-info">
+            <div class="mi-box">
+              <strong>3 giriş</strong><br/>x₁, x₂, x₃
+            </div>
+            <div class="mi-box mi-highlight">
+              <strong>4 nöron katmanı</strong><br/>Her biri farklı öğrenir
+            </div>
+            <div class="mi-box">
+              <strong>4 çıktı</strong><br/>z₁, z₂, z₃, z₄
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — NumPy</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# TEKLİ NÖRON HESABI (Elle Adım Adım)
+# ============================================================
+import numpy as np
+
+# Girişler (özellikler)
+x = np.array([2.0, 1.0])          # x1=2, x2=1
+
+# Ağırlıklar
+w = np.array([0.5, 0.8])          # w1=0.5, w2=0.8
+
+# Bias
+b = 0.5
+
+# İleri hesap: z = x . w + b
+z = np.dot(x, w) + b
+print(f"z = {z}")                  # z = 2.3
+
+# ============================================================
+# ÇOKLU NÖRON KATMANI (Matrix İşlemi)
+# ============================================================
+# Giriş: 3 özellik
+X = np.array([1.0, 2.0, 3.0])     # shape: (3,)
+
+# Ağırlık matris: 4 nöron × 3 giriş
+W = np.random.randn(4, 3)         # shape: (4, 3)
+
+# Bias: her nöron için 1 tane
+b = np.random.randn(4)            # shape: (4,)
+
+# Tüm nöronları tek seferde hesapla!
+Z = W @ X + b                      # shape: (4,)
+print(f"Katman çıktısı: {Z}")
+
+# PyTorch ile aynı işlem:
+import torch
+import torch.nn as nn
+
+layer = nn.Linear(in_features=3, out_features=4)
+x_t = torch.tensor([1.0, 2.0, 3.0])
+out = layer(x_t)
+print(f"PyTorch çıktı: {out}")</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 3. VERİ AKIŞI ===================== -->
+    <section class="section" id="dataflow">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">03</div>
+          <div>
+            <h2 class="section-title">Veri Nasıl Taşınır?</h2>
+            <p class="section-sub">Giriş katmanından çıkışa — veri yolculuğu</p>
+          </div>
+        </div>
+
+        <div class="flow-animation-wrapper">
+          <canvas id="flowCanvas" width="700" height="350"></canvas>
+          <div class="flow-controls">
+            <button class="flow-btn" id="flowStart" onclick="startFlow()">▶ Animasyonu Başlat</button>
+            <button class="flow-btn secondary" onclick="resetFlow()">↺ Sıfırla</button>
+          </div>
+        </div>
+
+        <div class="flow-steps">
+          <div class="flow-step" id="fs1">
+            <div class="fs-num">1</div>
+            <div class="fs-content">
+              <strong>Veri Girişi</strong>
+              <p>Ham veriler (piksel değerleri, sayılar, kelimeler) sayısal vektöre dönüştürülür</p>
+            </div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step" id="fs2">
+            <div class="fs-num">2</div>
+            <div class="fs-content">
+              <strong>Ağırlık Çarpımı</strong>
+              <p>Her bağlantı bir ağırlık ile çarpılır: <code>x × w</code></p>
+            </div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step" id="fs3">
+            <div class="fs-num">3</div>
+            <div class="fs-content">
+              <strong>Toplama + Bias</strong>
+              <p>Tüm çarpımlar toplanır, bias eklenir: <code>Σ(xᵢwᵢ) + b</code></p>
+            </div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step" id="fs4">
+            <div class="fs-num">4</div>
+            <div class="fs-content">
+              <strong>Aktivasyon</strong>
+              <p>Doğrusal olmayan dönüşüm uygulanır: <code>a = f(z)</code></p>
+            </div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step" id="fs5">
+            <div class="fs-num">5</div>
+            <div class="fs-content">
+              <strong>Çıktı</strong>
+              <p>Sonraki katmana aktarılan aktivasyon değerleri</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-types-box">
+          <h3>📦 Veriler Ne Şekilde Taşınır?</h3>
+          <div class="dt-grid">
+            <div class="dt-card">
+              <strong>Skaler</strong>
+              <div class="dt-visual scalar">3.7</div>
+              <span>Tek sayı</span>
+            </div>
+            <div class="dt-card">
+              <strong>Vektör</strong>
+              <div class="dt-visual vector">[1, 2, 3]</div>
+              <span>1D dizi</span>
+            </div>
+            <div class="dt-card">
+              <strong>Matris</strong>
+              <div class="dt-visual matrix">[[1,2],[3,4]]</div>
+              <span>2D tablo</span>
+            </div>
+            <div class="dt-card">
+              <strong>Tensör</strong>
+              <div class="dt-visual tensor">N boyutlu</div>
+              <span>Genel yapı</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. AĞIRLIKLAR ===================== -->
+    <section class="section" id="weights">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">04</div>
+          <div>
+            <h2 class="section-title">Köprüdeki Çarpılma — Ağırlıklar</h2>
+            <p class="section-sub">Her bağlantının güç katsayısı: w (weight)</p>
+          </div>
+        </div>
+
+        <div class="weight-interactive">
+          <h3>🎛️ Ağırlığı Değiştir, Sonucu Gör</h3>
+          <p>Aşağıdaki kaydırıcıyla ağırlığı değiştirin. Ağırlık ne kadar büyük olursa o bağlantı o kadar <strong>önemli</strong> hale gelir.</p>
+          <div class="weight-demo">
+            <canvas id="weightCanvas" width="600" height="200"></canvas>
+            <div class="weight-sliders">
+              <div class="ws-group">
+                <label>Bağlantı w₁ (x₁→nöron)</label>
+                <input type="range" id="wd1" min="0" max="3" step="0.05" value="1.5" oninput="updateWeightDemo()" />
+                <span id="wd1v">1.5</span>
+              </div>
+              <div class="ws-group">
+                <label>Bağlantı w₂ (x₂→nöron)</label>
+                <input type="range" id="wd2" min="0" max="3" step="0.05" value="0.5" oninput="updateWeightDemo()" />
+                <span id="wd2v">0.5</span>
+              </div>
+              <div class="ws-group">
+                <label>Bağlantı w₃ (x₃→nöron)</label>
+                <input type="range" id="wd3" min="0" max="3" step="0.05" value="2.0" oninput="updateWeightDemo()" />
+                <span id="wd3v">2.0</span>
+              </div>
+            </div>
+          </div>
+          <div class="weight-importance" id="weightImportance"></div>
+        </div>
+
+        <div class="concept-explainer">
+          <div class="ce-item">
+            <div class="ce-icon">📡</div>
+            <div class="ce-content">
+              <h4>w = 0</h4>
+              <p>O bağlantı <strong>yok sayılır</strong>. Sinyal geçmez.</p>
+            </div>
+          </div>
+          <div class="ce-item">
+            <div class="ce-icon">📶</div>
+            <div class="ce-content">
+              <h4>0 &lt; w &lt; 1</h4>
+              <p>Sinyal <strong>zayıflatılarak</strong> aktarılır.</p>
+            </div>
+          </div>
+          <div class="ce-item">
+            <div class="ce-icon">📻</div>
+            <div class="ce-content">
+              <h4>w = 1</h4>
+              <p>Sinyal <strong>değişmeden</strong> aktarılır.</p>
+            </div>
+          </div>
+          <div class="ce-item">
+            <div class="ce-icon">📡</div>
+            <div class="ce-content">
+              <h4>w &gt; 1</h4>
+              <p>Sinyal <strong>güçlendirilerek</strong> aktarılır.</p>
+            </div>
+          </div>
+          <div class="ce-item">
+            <div class="ce-icon">🔄</div>
+            <div class="ce-content">
+              <h4>w &lt; 0</h4>
+              <p>Sinyal <strong>tersine çevrilir</strong> (inhibitor bağlantı).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="training-box">
+          <h3>🎓 Ağırlıklar Nasıl Öğrenir?</h3>
+          <div class="training-steps">
+            <div class="ts-step">
+              <div class="ts-icon">🎲</div>
+              <p><strong>Rastgele Başlangıç</strong><br/>Ağırlıklar küçük rastgele değerlerle başlar</p>
+            </div>
+            <div class="ts-arrow">→</div>
+            <div class="ts-step">
+              <div class="ts-icon">📉</div>
+              <p><strong>Hata Ölçümü</strong><br/>Tahmin ile gerçek karşılaştırılır (loss)</p>
+            </div>
+            <div class="ts-arrow">→</div>
+            <div class="ts-step">
+              <div class="ts-icon">↩️</div>
+              <p><strong>Backpropagation</strong><br/>Hata geriye yayılır</p>
+            </div>
+            <div class="ts-arrow">→</div>
+            <div class="ts-step">
+              <div class="ts-icon">✂️</div>
+              <p><strong>Güncelleme</strong><br/>Ağırlıklar gradient'e göre ayarlanır</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Ağırlık İşlemleri</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# AĞIRLIK ÇARPIMI — TEMEL MANTIK
+# ============================================================
+import numpy as np
+
+# Giriş sinyali
+x = 5.0
+
+# Ağırlık
+w = 0.3
+
+# Bağlantıdan geçen değer
+signal = x * w
+print(f"Sinyal: {x} × {w} = {signal}")  # 1.5
+
+# ============================================================
+# MATRİS ÇARPIMI (Katman için)
+# ============================================================
+# Çoklu giriş → çoklu çıkış
+X = np.array([2.0, 3.0, 1.0])      # 3 giriş
+W = np.array([                       # 2 nöron × 3 giriş
+    [0.5, 0.3, 0.8],                 # nöron 1'in ağırlıkları
+    [0.1, 0.9, 0.4],                 # nöron 2'nin ağırlıkları
+])
+
+Z = W @ X        # Matrix çarpımı
+print(f"Çıktı: {Z}")   # iki nöronun ham çıktısı
+
+# ============================================================
+# PyTorch — Ağırlıkları Görme
+# ============================================================
+import torch
+import torch.nn as nn
+
+layer = nn.Linear(3, 2)            # 3 giriş, 2 nöron
+print("Ağırlıklar:")
+print(layer.weight)                 # shape: (2, 3)
+print("Bias:")
+print(layer.bias)                   # shape: (2,)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 5. BIAS ===================== -->
+    <section class="section" id="bias">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">05</div>
+          <div>
+            <h2 class="section-title">Bias — Önyargı Terimi</h2>
+            <p class="section-sub">Nöronun "eşiği" — bağımsız kaydırma kabiliyeti</p>
+          </div>
+        </div>
+
+        <div class="bias-demo">
+          <h3>🎯 Bias'ın Etkisini Gör</h3>
+          <p>Aşağıda <code>z = w·x + b</code> eğrisinin bias'a göre nasıl <strong>kaydığını</strong> gözlemle:</p>
+          <div class="bias-controls">
+            <div class="bc-group">
+              <label>Ağırlık (w): <span id="biasW">1.0</span></label>
+              <input type="range" id="biasWSlider" min="-3" max="3" step="0.1" value="1.0" oninput="updateBiasDemo()" />
+            </div>
+            <div class="bc-group">
+              <label>Bias (b): <span id="biasB">0.0</span></label>
+              <input type="range" id="biasBSlider" min="-5" max="5" step="0.1" value="0.0" oninput="updateBiasDemo()" />
+            </div>
+          </div>
+          <canvas id="biasCanvas" width="650" height="300"></canvas>
+          <div class="bias-explanation" id="biasExplanation">
+            <strong>b = 0:</strong> Doğru orijinden geçer. Nöron sadece x=0 üzerinde "uyanır".
+          </div>
+        </div>
+
+        <div class="bias-concept">
+          <div class="bc-analogy">
+            <h3>💡 Saat Benzetmesi</h3>
+            <p>Düşün: alarm saatin <strong>saat 7'de</strong> çalıyor (bias = -7). Bu, nöronun "ne zaman aktive olacağını" belirler. Bias olmadan, nöron sadece girişlerin tam olarak 0 olduğunda "uyuyabilir". Bias ile <strong>istediğin eşiği</strong> ayarlarsın.</p>
+          </div>
+          <div class="bc-math">
+            <h3>📐 Matematiksel Anlamı</h3>
+            <div class="formula-display">
+              <div class="fd-row">
+                <span class="fd-label">Bias yok:</span>
+                <span class="fd-formula">z = w·x → Doğru her zaman orijinden geçer</span>
+              </div>
+              <div class="fd-row highlight-row">
+                <span class="fd-label">Bias var:</span>
+                <span class="fd-formula">z = w·x + b → Doğru özgürce kaydırılabilir</span>
+              </div>
+            </div>
+            <p class="fd-note">Bias, modele <strong>esneklik</strong> kazandırır. Bias olmadan, tüm doğrular orijinden geçmek zorunda kalır ve çok az örüntü öğrenilebilir.</p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Bias Etkisi</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# BIAS OLMADAN vs BIAS İLE
+# ============================================================
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-5, 5, 100)
+w = 1.5
+
+# Bias yok
+z_no_bias = w * x
+# Farklı bias değerleri
+z_b_neg   = w * x + (-3)
+z_b_zero  = w * x + 0
+z_b_pos   = w * x + 3
+
+plt.figure(figsize=(8, 5))
+plt.plot(x, z_no_bias, 'gray',  linestyle='--', label='b=0 (orijinden geçer)')
+plt.plot(x, z_b_neg,   'red',                   label='b=-3 (sola kayması)')
+plt.plot(x, z_b_pos,   'green',                 label='b=+3 (sağa kayması)')
+plt.axhline(0, color='white', linewidth=0.5)
+plt.axvline(0, color='white', linewidth=0.5)
+plt.grid(True, alpha=0.3)
+plt.title("Bias'ın Etkisi: Doğruyu Kaydırmak")
+plt.legend()
+plt.show()
+
+# ============================================================
+# PyTorch'ta Bias
+# ============================================================
+import torch
+import torch.nn as nn
+
+# Bias ETKİN (varsayılan)
+layer_with_bias    = nn.Linear(3, 4, bias=True)
+
+# Bias DEVRE DIŞI
+layer_without_bias = nn.Linear(3, 4, bias=False)
+
+print("Bias değerleri:", layer_with_bias.bias.data)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 6. FORWARD PASS ===================== -->
+    <section class="section" id="forward">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">06</div>
+          <div>
+            <h2 class="section-title">Forward Pass</h2>
+            <p class="section-sub">İleri yayılım: Girişten çıkışa hesap akışı</p>
+          </div>
+        </div>
+
+        <div class="forward-stepper">
+          <div class="fs-header">
+            <h3>🔬 Adım Adım Forward Pass</h3>
+            <div class="fs-controls">
+              <button class="step-btn" id="prevStep" onclick="changeStep(-1)" disabled>← Önceki</button>
+              <span class="step-indicator" id="stepIndicator">Adım 1 / 5</span>
+              <button class="step-btn" id="nextStep" onclick="changeStep(1)">Sonraki →</button>
+            </div>
+          </div>
+          <canvas id="forwardCanvas" width="700" height="380"></canvas>
+          <div class="step-detail" id="stepDetail">
+            <div class="sd-title" id="sdTitle">🎯 Başlangıç: Giriş Verisi</div>
+            <div class="sd-text" id="sdText">Ham veriler modele beslenir. Örnek: x = [0.5, 0.8, 0.3]</div>
+            <div class="sd-formula" id="sdFormula">x = [0.5, 0.8, 0.3]</div>
+          </div>
+        </div>
+
+        <div class="forward-summary">
+          <h3>📊 Tam Ağ Forward Formülü</h3>
+          <div class="formula-chain">
+            <div class="fc-item">
+              <div class="fc-layer">Giriş</div>
+              <div class="fc-formula">x</div>
+            </div>
+            <div class="fc-arrow">→</div>
+            <div class="fc-item">
+              <div class="fc-layer">Katman 1</div>
+              <div class="fc-formula">a¹ = f(W¹x + b¹)</div>
+            </div>
+            <div class="fc-arrow">→</div>
+            <div class="fc-item">
+              <div class="fc-layer">Katman 2</div>
+              <div class="fc-formula">a² = f(W²a¹ + b²)</div>
+            </div>
+            <div class="fc-arrow">→</div>
+            <div class="fc-item highlighted-fc">
+              <div class="fc-layer">Çıktı</div>
+              <div class="fc-formula">ŷ = softmax(W³a² + b³)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Forward Pass Sıfırdan</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# FORWARD PASS — SIFIRDAN EL İLE
+# ============================================================
+import numpy as np
+
+def relu(x):
+    return np.maximum(0, x)
+
+def softmax(x):
+    e = np.exp(x - np.max(x))
+    return e / e.sum()
+
+# Ağırlıklar (normalde eğitimle öğrenilir)
+np.random.seed(42)
+W1 = np.random.randn(4, 3)   # Katman 1: 4 nöron, 3 giriş
+b1 = np.zeros(4)
+W2 = np.random.randn(2, 4)   # Katman 2: 2 nöron, 4 giriş
+b2 = np.zeros(2)
+
+def forward_pass(x):
+    print("=== FORWARD PASS ===")
+    print(f"Giriş: {x}")
+
+    # Katman 1
+    z1 = W1 @ x + b1
+    a1 = relu(z1)
+    print(f"z1 (ham): {np.round(z1, 2)}")
+    print(f"a1 (ReLU sonrası): {np.round(a1, 2)}")
+
+    # Katman 2 (çıktı)
+    z2 = W2 @ a1 + b2
+    a2 = softmax(z2)
+    print(f"z2 (ham): {np.round(z2, 2)}")
+    print(f"a2 (Softmax sonrası): {np.round(a2, 2)}")
+    print(f"Tahmin: Sınıf {np.argmax(a2)}")
+    return a2
+
+x_input = np.array([0.5, 0.8, 0.3])
+output = forward_pass(x_input)
+
+# ============================================================
+# PyTorch ile AYNI İŞLEM (daha temiz)
+# ============================================================
+import torch
+import torch.nn as nn
+
+model = nn.Sequential(
+    nn.Linear(3, 4),
+    nn.ReLU(),
+    nn.Linear(4, 2),
+    nn.Softmax(dim=0)
+)
+
+x = torch.tensor([0.5, 0.8, 0.3])
+output = model(x)
+print("PyTorch çıktı:", output)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 7. HIDDEN LAYERS ===================== -->
+    <section class="section" id="hidden">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">07</div>
+          <div>
+            <h2 class="section-title">Hidden Layers — Gizli Katmanlar</h2>
+            <p class="section-sub">Karmaşık örüntülerin öğrenildiği katmanlar</p>
+          </div>
+        </div>
+
+        <div class="layer-builder">
+          <h3>🏗️ Ağ Mimarisini Kendin Oluştur</h3>
+          <div class="lb-controls">
+            <div class="lb-ctrl">
+              <label>Giriş nöronu:</label>
+              <select id="inputN" onchange="buildNetwork()">
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+            <div class="lb-ctrl">
+              <label>Gizli katman sayısı:</label>
+              <select id="hiddenCount" onchange="buildNetwork()">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+            <div class="lb-ctrl">
+              <label>Gizli katman nöronu:</label>
+              <select id="hiddenN" onchange="buildNetwork()">
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </div>
+            <div class="lb-ctrl">
+              <label>Çıktı nöronu:</label>
+              <select id="outputN" onchange="buildNetwork()">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+          </div>
+          <canvas id="networkCanvas" width="700" height="380"></canvas>
+          <div class="network-stats" id="networkStats"></div>
+        </div>
+
+        <div class="depth-info">
+          <div class="di-card">
+            <h4>🤏 Sığ Ağ (1-2 katman)</h4>
+            <p>Basit problemler için yeterli. Hızlı eğitilir. Doğrusal örüntüler.</p>
+            <div class="di-use">Kullanım: spam filtresi, basit regresyon</div>
+          </div>
+          <div class="di-card di-mid">
+            <h4>🏗️ Orta Ağ (3-5 katman)</h4>
+            <p>Çoğu gerçek dünya problemi için ideal. İyi denge.</p>
+            <div class="di-use">Kullanım: görüntü sınıflandırma, NLP</div>
+          </div>
+          <div class="di-card di-deep">
+            <h4>🏔️ Derin Ağ (6+ katman)</h4>
+            <p>Çok karmaşık örüntüler. Büyük veri gerektirir. GPT, ResNet gibi.</p>
+            <div class="di-use">Kullanım: dil modelleri, ses tanıma</div>
+          </div>
+        </div>
+
+        <div class="what-layers-learn">
+          <h3>🔍 Her Katman Ne Öğrenir? (Görüntü örneği)</h3>
+          <div class="wll-grid">
+            <div class="wll-item">
+              <div class="wll-icon layer1-icon">⬛</div>
+              <strong>Katman 1</strong>
+              <p>Kenarlar, çizgiler</p>
+            </div>
+            <div class="wll-arrow">→</div>
+            <div class="wll-item">
+              <div class="wll-icon layer2-icon">🔷</div>
+              <strong>Katman 2</strong>
+              <p>Şekiller, köşeler</p>
+            </div>
+            <div class="wll-arrow">→</div>
+            <div class="wll-item">
+              <div class="wll-icon layer3-icon">👤</div>
+              <strong>Katman 3</strong>
+              <p>Parçalar (göz, kulak)</p>
+            </div>
+            <div class="wll-arrow">→</div>
+            <div class="wll-item">
+              <div class="wll-icon layer4-icon">🐱</div>
+              <strong>Çıktı</strong>
+              <p>Nesne (kedi, köpek)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Hidden Layer Mimarileri</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# FARKLI DERİNLİKTE AĞLAR — PyTorch
+# ============================================================
+import torch
+import torch.nn as nn
+
+# --- Sığ Ağ (1 gizli katman) ---
+shallow_net = nn.Sequential(
+    nn.Linear(10, 16),     # Giriş→Gizli
+    nn.ReLU(),
+    nn.Linear(16, 2),      # Gizli→Çıktı
+)
+
+# --- Orta Ağ (3 gizli katman) ---
+medium_net = nn.Sequential(
+    nn.Linear(10, 64),
+    nn.ReLU(),
+    nn.Linear(64, 128),
+    nn.ReLU(),
+    nn.Linear(128, 64),
+    nn.ReLU(),
+    nn.Linear(64, 2),
+)
+
+# --- Derin Ağ (class olarak) ---
+class DeepNet(nn.Module):
+    def __init__(self, input_dim, hidden_dims, output_dim):
+        super().__init__()
+        layers = []
+        dims = [input_dim] + hidden_dims + [output_dim]
+        for i in range(len(dims) - 1):
+            layers.append(nn.Linear(dims[i], dims[i+1]))
+            if i < len(dims) - 2:          # Son katmana aktivasyon yok
+                layers.append(nn.ReLU())
+        self.net = nn.Sequential(*layers)
+
+    def forward(self, x):
+        return self.net(x)
+
+deep_net = DeepNet(input_dim=10, hidden_dims=[64, 128, 256, 128, 64], output_dim=3)
+print(deep_net)
+
+# Parametre sayısını gör
+total_params = sum(p.numel() for p in deep_net.parameters())
+print(f"Toplam parametre: {total_params:,}")</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 8. NÖRON SAYISI ===================== -->
+    <section class="section" id="neurons-count">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">08</div>
+          <div>
+            <h2 class="section-title">Kaç Nöron Olmalı?</h2>
+            <p class="section-sub">Az mı? Çok mu? Doğru dengeyi bul</p>
+          </div>
+        </div>
+
+        <div class="neuron-compare">
+          <h3>⚖️ Az vs Çok Nöron Karşılaştırması</h3>
+          <canvas id="compareCanvas" width="700" height="320"></canvas>
+          <div class="compare-controls">
+            <label>Nöron sayısı:
+              <input type="range" id="neuronCount" min="1" max="16" step="1" value="4" oninput="updateCompare()" />
+              <span id="neuronCountVal">4</span>
+            </label>
+          </div>
+          <div class="compare-labels" id="compareLabels">
+            <div class="cl-item underfitting">⚠️ Az Nöron → Underfitting</div>
+          </div>
+        </div>
+
+        <div class="neuron-effects">
+          <div class="ne-card bad">
+            <h4>😰 Çok Az Nöron</h4>
+            <ul>
+              <li>Model çok basit kalır</li>
+              <li>Örüntüleri öğrenemez</li>
+              <li>Underfitting (yetersiz uyum)</li>
+              <li>Hem train hem test hata büyük</li>
+            </ul>
+            <div class="ne-meter">
+              <div class="ne-bar" style="width:20%; background: #ff4757"></div>
+            </div>
+            <small>Kapasite: Düşük</small>
+          </div>
+          <div class="ne-card good">
+            <h4>✅ Doğru Nöron Sayısı</h4>
+            <ul>
+              <li>Probleme uygun kapasite</li>
+              <li>İyi genelleme yapar</li>
+              <li>Train ve test hatası dengeli</li>
+              <li>Dropout ile desteklenir</li>
+            </ul>
+            <div class="ne-meter">
+              <div class="ne-bar" style="width:65%; background: #2ed573"></div>
+            </div>
+            <small>Kapasite: Optimal</small>
+          </div>
+          <div class="ne-card bad">
+            <h4>😰 Çok Fazla Nöron</h4>
+            <ul>
+              <li>Eğitim verisini ezberler</li>
+              <li>Yeni veriye genelleşemez</li>
+              <li>Overfitting (aşırı uyum)</li>
+              <li>Yavaş eğitim, yüksek bellek</li>
+            </ul>
+            <div class="ne-meter">
+              <div class="ne-bar" style="width:95%; background: #ff6b81"></div>
+            </div>
+            <small>Kapasite: Aşırı</small>
+          </div>
+        </div>
+
+        <div class="rules-box">
+          <h3>📏 Nöron Sayısı Seçim Rehberi</h3>
+          <div class="rules-grid">
+            <div class="rule-card">
+              <div class="rc-emoji">🚀</div>
+              <strong>Başlangıç Kuralı</strong>
+              <p>İlk gizli katman: giriş boyutunun 2-4 katı</p>
+              <code>n_hidden ≈ 2 × n_input</code>
+            </div>
+            <div class="rule-card">
+              <div class="rc-emoji">📉</div>
+              <strong>Huni Şekli</strong>
+              <p>Katmanlar ilerledikçe nöron sayısını azalt</p>
+              <code>[256 → 128 → 64 → 2]</code>
+            </div>
+            <div class="rule-card">
+              <div class="rc-emoji">🔬</div>
+              <strong>Deneysel</strong>
+              <p>Farklı mimarileri dene, validation loss'u karşılaştır</p>
+              <code>Grid Search / Optuna</code>
+            </div>
+            <div class="rule-card">
+              <div class="rc-emoji">🛡️</div>
+              <strong>Düzenlileştirme</strong>
+              <p>Fazla nöron için Dropout veya L2 regularization kullan</p>
+              <code>nn.Dropout(p=0.3)</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Nöron Sayısı Denemeleri</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# FARKLI NÖRON SAYILARINI DENE
+# ============================================================
+import torch
+import torch.nn as nn
+
+def create_model(n_neurons):
+    """Verilen nöron sayısıyla model oluştur"""
+    return nn.Sequential(
+        nn.Linear(10, n_neurons),
+        nn.ReLU(),
+        nn.Dropout(0.3),         # Overfitting'e karşı
+        nn.Linear(n_neurons, n_neurons // 2),
+        nn.ReLU(),
+        nn.Linear(n_neurons // 2, 2),
+    )
+
+# Az nöron — Underfitting riski
+model_small  = create_model(8)
+# Orta — İyi başlangıç noktası
+model_medium = create_model(64)
+# Fazla — Overfitting riski (Dropout önemli!)
+model_large  = create_model(512)
+
+for name, model in [("Az(8)", model_small), ("Orta(64)", model_medium), ("Fazla(512)", model_large)]:
+    n = sum(p.numel() for p in model.parameters())
+    print(f"{name}: {n:,} parametre")
+
+# ============================================================
+# DROPOUT İLE AŞIRI UYUMU ÖNLE
+# ============================================================
+class RegularizedNet(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim, dropout=0.3):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.BatchNorm1d(hidden_dim),        # Normalizasyon
+            nn.ReLU(),
+            nn.Dropout(dropout),               # Rastgele nöron kapatma
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim // 2, output_dim),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+model = RegularizedNet(10, 256, 2, dropout=0.3)
+print(model)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 9. AKTİVASYON ===================== -->
+    <section class="section" id="activation">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">09</div>
+          <div>
+            <h2 class="section-title">Aktivasyon Fonksiyonları</h2>
+            <p class="section-sub">Doğrusallığı kıran, öğrenmeyi mümkün kılan dönüşümler</p>
+          </div>
+        </div>
+
+        <div class="activation-why">
+          <div class="aw-icon">🤔</div>
+          <div>
+            <h3>Neden Aktivasyon Fonksiyonu?</h3>
+            <p>Aktivasyon fonksiyonu olmadan, ne kadar katman eklersen ekle, ağın tamamı sadece <strong>doğrusal</strong> (düz) bir işlem yapar. Aktivasyon fonksiyonları <strong>doğrusal olmayan</strong> (non-linear) dönüşüm ekleyerek ağın karmaşık örüntüleri öğrenmesini sağlar.</p>
+          </div>
+        </div>
+
+        <!-- Aktivasyon Seçici -->
+        <div class="activation-explorer">
+          <h3>🔍 Aktivasyon Fonksiyonu Keşfedici</h3>
+          <div class="ae-tabs">
+            <button class="ae-tab active" onclick="selectActivation('relu')" data-fn="relu">ReLU</button>
+            <button class="ae-tab" onclick="selectActivation('sigmoid')" data-fn="sigmoid">Sigmoid</button>
+            <button class="ae-tab" onclick="selectActivation('tanh')" data-fn="tanh">Tanh</button>
+            <button class="ae-tab" onclick="selectActivation('leaky')" data-fn="leaky">Leaky ReLU</button>
+            <button class="ae-tab" onclick="selectActivation('gelu')" data-fn="gelu">GELU</button>
+            <button class="ae-tab" onclick="selectActivation('swish')" data-fn="swish">Swish</button>
+          </div>
+          <div class="ae-content">
+            <canvas id="activationCanvas" width="500" height="280"></canvas>
+            <div class="ae-info" id="aeInfo">
+              <div class="aei-formula" id="aeiFormula">f(x) = max(0, x)</div>
+              <div class="aei-props" id="aeiProps">
+                <div class="prop-grid">
+                  <div class="prop-item"><span class="prop-k">Aralık:</span><span class="prop-v" id="propRange">[0, +∞)</span></div>
+                  <div class="prop-item"><span class="prop-k">Türev:</span><span class="prop-v" id="propDeriv">0 veya 1</span></div>
+                  <div class="prop-item"><span class="prop-k">Kullanım:</span><span class="prop-v" id="propUse">Gizli katmanlar</span></div>
+                  <div class="prop-item"><span class="prop-k">Avantaj:</span><span class="prop-v" id="propPro">Hızlı, gradient problemi yok</span></div>
+                  <div class="prop-item"><span class="prop-k">Dezavantaj:</span><span class="prop-v" id="propCon">Dying ReLU problemi</span></div>
+                </div>
+              </div>
+              <div class="aei-desc" id="aeiDesc">
+                Negatif değerleri sıfırlar, pozitifleri olduğu gibi geçirir. En yaygın kullanılan aktivasyon fonksiyonu. Derin ağlarda gradient kaybı sorununu büyük ölçüde çözer.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ne zaman hangisini seç? -->
+        <div class="activation-guide">
+          <h3>🗺️ Hangi Durumda Hangisini Seç?</h3>
+          <div class="ag-table-wrap">
+            <table class="ag-table">
+              <thead>
+                <tr>
+                  <th>Fonksiyon</th>
+                  <th>Gizli Katman</th>
+                  <th>Çıktı — İkili Sınıf</th>
+                  <th>Çıktı — Çok Sınıflı</th>
+                  <th>Çıktı — Regresyon</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="row-relu">
+                  <td><strong>ReLU</strong></td>
+                  <td>✅ İdeal</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr class="row-leaky">
+                  <td><strong>Leaky ReLU</strong></td>
+                  <td>✅ İyi</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr class="row-sigmoid">
+                  <td><strong>Sigmoid</strong></td>
+                  <td>⚠️ Eski</td>
+                  <td>✅ İdeal</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr class="row-tanh">
+                  <td><strong>Tanh</strong></td>
+                  <td>✅ RNN için</td>
+                  <td>⚠️ Olabilir</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr class="row-softmax">
+                  <td><strong>Softmax</strong></td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅ İdeal</td>
+                  <td>❌</td>
+                </tr>
+                <tr class="row-linear">
+                  <td><strong>Linear (yok)</strong></td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅ İdeal</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Tüm Aktivasyon Fonksiyonları</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# AKTİVASYON FONKSİYONLARI — PyTorch
+# ============================================================
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = torch.linspace(-5, 5, 200)
+
+activations = {
+    "ReLU":       nn.ReLU(),
+    "Leaky ReLU": nn.LeakyReLU(0.1),
+    "Sigmoid":    nn.Sigmoid(),
+    "Tanh":       nn.Tanh(),
+    "GELU":       nn.GELU(),
+    "Swish/SiLU": nn.SiLU(),
+    "ELU":        nn.ELU(),
+}
+
+fig, axes = plt.subplots(2, 4, figsize=(14, 6))
+axes = axes.flatten()
+
+for i, (name, fn) in enumerate(activations.items()):
+    y = fn(x).detach().numpy()
+    axes[i].plot(x.numpy(), y, color='cyan', linewidth=2)
+    axes[i].axhline(0, color='gray', linewidth=0.5)
+    axes[i].axvline(0, color='gray', linewidth=0.5)
+    axes[i].set_title(name, color='white')
+    axes[i].set_facecolor('#1a1a2e')
+    axes[i].grid(True, alpha=0.2)
+
+plt.tight_layout()
+plt.show()
+
+# ============================================================
+# DOĞRU SEÇİM ÖRNEKLERİ
+# ============================================================
+
+# İkili sınıflandırma (0 veya 1)
+binary_model = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 1),  nn.Sigmoid()   # Çıktı: 0-1 arası olasılık
+)
+
+# Çok sınıflı (3 sınıf)
+multi_model = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 3),  nn.Softmax(dim=1)  # Tüm sınıflar toplamı=1
+)
+
+# Regresyon (sürekli değer)
+regression_model = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(),
+    nn.Linear(64, 1)   # Aktivasyon YOK
+)
+
+# Manuel aktivasyon — functional API
+def forward(x):
+    x = F.relu(x)          # ReLU
+    x = F.leaky_relu(x, 0.01)  # Leaky ReLU
+    x = torch.sigmoid(x)   # Sigmoid
+    x = torch.tanh(x)      # Tanh
+    return x</code></pre>
+        </div>
+
+        <div class="analogy-box" style="margin-top:32px">
+          <div class="analogy-icon">👇</div>
+          <div>
+            <h3>Devam Ediyor!</h3>
+            <p>Temel katmanı tamamladın. Şimdi bir modelin nasıl <strong>öğrendiğini</strong> keşfet: Backpropagation, Loss fonksiyonları ve Epoch/Early Stopping seni bekliyor!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 10. BACKPROPAGATION ===================== -->
+    <section class="section" id="backprop">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">10</div>
+          <div>
+            <h2 class="section-title">Backpropagation</h2>
+            <p class="section-sub">Hatayı geriye yay, ağırlıkları öğret</p>
+          </div>
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-icon">🔴→🔵</div>
+          <div>
+            <h3>Temel Fikir</h3>
+            <p>Forward pass'te tahmin yapılır. Ardından <strong>hata hesaplanır</strong>. Backpropagation bu hatayı zincir kuralı (chain rule) ile ağın en başına kadar <strong>geriye yayar</strong> — böylece her ağırlığın hataya katkısı bilinir ve güncellenir.</p>
+          </div>
+        </div>
+
+        <div class="forward-stepper">
+          <div class="fs-header">
+            <h3>🔄 Backprop Akışı — Adım Adım</h3>
+            <div class="fs-controls">
+              <button class="step-btn" id="bpPrev" onclick="changeBpStep(-1)" disabled>← Önceki</button>
+              <span class="step-indicator" id="bpStepInd">Adım 1 / 6</span>
+              <button class="step-btn" id="bpNext" onclick="changeBpStep(1)">Sonraki →</button>
+            </div>
+          </div>
+          <canvas id="backpropCanvas" width="700" height="340"></canvas>
+          <div class="step-detail" id="bpDetail">
+            <div class="sd-title" id="bpTitle">🟢 Forward Pass — Tahmin Yap</div>
+            <div class="sd-text"  id="bpText">Önce forward pass ile ağ bir tahmin üretir: ŷ</div>
+            <div class="sd-formula" id="bpFormula">ŷ = f(x; W, b)</div>
+          </div>
+        </div>
+
+        <div class="bp-chain">
+          <h3>⛓️ Chain Rule (Zincir Kuralı)</h3>
+          <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:16px">Backprop'un matematiği budur. Çıktıdaki hata, zincir kuralıyla katman katman geriye taşınır:</p>
+          <div class="chain-formula">
+            <div class="cf-item">
+              <span class="cf-label">Çıktı hatası</span>
+              <span class="cf-val">∂L/∂ŷ</span>
+            </div>
+            <div class="cf-arrow">×</div>
+            <div class="cf-item">
+              <span class="cf-label">Aktivasyon türevi</span>
+              <span class="cf-val">∂ŷ/∂z</span>
+            </div>
+            <div class="cf-arrow">×</div>
+            <div class="cf-item">
+              <span class="cf-label">Ağırlık türevi</span>
+              <span class="cf-val">∂z/∂W</span>
+            </div>
+            <div class="cf-arrow">=</div>
+            <div class="cf-item cf-result">
+              <span class="cf-label">Ağırlık gradyanı</span>
+              <span class="cf-val">∂L/∂W</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gd-demo">
+          <h3>📉 Gradient Descent — İnteraktif</h3>
+          <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:16px">Learning rate ne kadar küçük/büyük olursa ne olur?</p>
+          <div class="gd-controls">
+            <div class="bc-group">
+              <label>Learning Rate (α): <span id="lrVal">0.10</span></label>
+              <input type="range" id="lrSlider" min="0.01" max="1.0" step="0.01" value="0.10" oninput="updateGD()" />
+            </div>
+            <button class="flow-btn" id="gdRunBtn" onclick="runGD()">▶ Gradient Descent Çalıştır</button>
+            <button class="flow-btn secondary" onclick="resetGD()">↺ Sıfırla</button>
+          </div>
+          <canvas id="gdCanvas" width="650" height="260"></canvas>
+          <div class="gd-log" id="gdLog"><span class="gd-badge">Hazır — Çalıştır butonuna bas</span></div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Backprop &amp; Gradient Descent</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# BACKPROPAGATION — NUMPY İLE SIFIRDAN
+# ============================================================
+import numpy as np
+
+np.random.seed(0)
+W1 = np.random.randn(3, 2) * 0.1
+b1 = np.zeros((3, 1))
+W2 = np.random.randn(1, 3) * 0.1
+b2 = np.zeros((1, 1))
+
+def relu(z):     return np.maximum(0, z)
+def sigmoid(z):  return 1 / (1 + np.exp(-z))
+
+def forward(X):
+    Z1 = W1 @ X + b1;  A1 = relu(Z1)
+    Z2 = W2 @ A1 + b2; A2 = sigmoid(Z2)
+    return Z1, A1, Z2, A2
+
+def backward(X, Y, Z1, A1, A2, lr=0.1):
+    global W1, b1, W2, b2
+    m = X.shape[1]
+    dZ2 = A2 - Y
+    dW2 = (dZ2 @ A1.T) / m;  db2 = dZ2.mean(axis=1, keepdims=True)
+    dA1 = W2.T @ dZ2
+    dZ1 = dA1 * (Z1 > 0)                 # ReLU türevi
+    dW1 = (dZ1 @ X.T) / m;  db1 = dZ1.mean(axis=1, keepdims=True)
+    W2 -= lr * dW2;  b2 -= lr * db2
+    W1 -= lr * dW1;  b1 -= lr * db1
+
+X = np.array([[0,0,1,1],[0,1,0,1]])
+Y = np.array([[0,1,1,0]])               # XOR
+
+for epoch in range(1000):
+    Z1, A1, Z2, A2 = forward(X)
+    loss = -np.mean(Y*np.log(A2+1e-8) + (1-Y)*np.log(1-A2+1e-8))
+    backward(X, Y, Z1, A1, A2, lr=0.5)
+    if epoch % 200 == 0:
+        print(f"Epoch {epoch}  |  Loss: {loss:.4f}")
+
+# PyTorch — Otomatik Backprop (loss.backward())
+import torch, torch.nn as nn
+
+model   = nn.Sequential(nn.Linear(2,8), nn.ReLU(), nn.Linear(8,1), nn.Sigmoid())
+opt     = torch.optim.Adam(model.parameters(), lr=0.01)
+loss_fn = nn.BCELoss()
+
+X_t = torch.tensor([[0.,0.],[0.,1.],[1.,0.],[1.,1.]])
+Y_t = torch.tensor([[0.],[1.],[1.],[0.]])
+
+for epoch in range(500):
+    pred = model(X_t)
+    loss = loss_fn(pred, Y_t)
+    opt.zero_grad()      # Gradyanları sıfırla
+    loss.backward()      # Backprop (otomatik!)
+    opt.step()           # Ağırlıkları güncelle
+    if epoch % 100 == 0:
+        print(f"Epoch {epoch}  |  Loss: {loss.item():.4f}")</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 11. LOSS FONKSİYONLARI ===================== -->
+    <section class="section" id="loss">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">11</div>
+          <div>
+            <h2 class="section-title">Loss Fonksiyonları</h2>
+            <p class="section-sub">Modelin ne kadar yanıldığını ölçen pusula</p>
+          </div>
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-icon">🎯</div>
+          <div>
+            <h3>Loss Nedir?</h3>
+            <p>Loss (kayıp) fonksiyonu, modelin tahmininin gerçek değerden ne kadar uzak olduğunu ölçer. Eğitimin amacı bu değeri <strong>minimize etmektir</strong>.</p>
+          </div>
+        </div>
+
+        <div class="loss-explorer">
+          <h3>🔍 Loss Fonksiyonu Karşılaştırıcı</h3>
+          <div class="ae-tabs">
+            <button class="ae-tab active" onclick="selectLoss('mse')"   data-loss="mse">MSE</button>
+            <button class="ae-tab" onclick="selectLoss('mae')"          data-loss="mae">MAE</button>
+            <button class="ae-tab" onclick="selectLoss('bce')"          data-loss="bce">Binary CE</button>
+            <button class="ae-tab" onclick="selectLoss('cce')"          data-loss="cce">Categorical CE</button>
+            <button class="ae-tab" onclick="selectLoss('huber')"        data-loss="huber">Huber</button>
+          </div>
+          <div class="ae-content">
+            <canvas id="lossCanvas" width="480" height="280"></canvas>
+            <div class="ae-info">
+              <div class="aei-formula" id="lossFormula">L = (1/n) Σ(y − ŷ)²</div>
+              <div class="aei-props">
+                <div class="prop-grid">
+                  <div class="prop-item"><span class="prop-k">Görev:</span><span class="prop-v" id="lossPropTask">Regresyon</span></div>
+                  <div class="prop-item"><span class="prop-k">Avantaj:</span><span class="prop-v" id="lossPropPro">Büyük hataları quadratik cezalandırır</span></div>
+                  <div class="prop-item"><span class="prop-k">Dezavantaj:</span><span class="prop-v" id="lossPropCon">Aykırı değerlere hassas</span></div>
+                  <div class="prop-item"><span class="prop-k">PyTorch:</span><span class="prop-v" id="lossPropCode">nn.MSELoss()</span></div>
+                </div>
+              </div>
+              <div class="aei-desc" id="lossDesc">MSE: Tahmin ile gerçek farkının kareleri. Regresyon için standart seçimdir.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="loss-calc-box">
+          <h3>🧮 Canlı Loss Hesaplayıcı</h3>
+          <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:16px">Tahmin ve gerçek değerleri ayarla, tüm loss değerlerini karşılaştır</p>
+          <div class="loss-calc-controls">
+            <div class="lcc-group">
+              <label>Gerçek değer (y): <span id="lcActual">1.0</span></label>
+              <input type="range" id="lcActualSlider" min="0" max="1" step="0.05" value="1.0" oninput="updateLossCalc()" />
+            </div>
+            <div class="lcc-group">
+              <label>Tahmin (ŷ): <span id="lcPred">0.5</span></label>
+              <input type="range" id="lcPredSlider" min="0.001" max="0.999" step="0.01" value="0.5" oninput="updateLossCalc()" />
+            </div>
+          </div>
+          <div class="loss-meters" id="lossMeterDisplay"></div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Tüm Loss Fonksiyonları</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# LOSS FONKSİYONLARI — PyTorch
+# ============================================================
+import torch, torch.nn as nn
+
+y_true = torch.tensor([1.0, 0.0, 1.0, 1.0])
+y_pred = torch.tensor([0.8, 0.2, 0.6, 0.9])
+
+# Regresyon
+print(f"MSE:   {nn.MSELoss()(y_pred, y_true):.4f}")
+print(f"MAE:   {nn.L1Loss()(y_pred, y_true):.4f}")
+print(f"Huber: {nn.HuberLoss(delta=0.5)(y_pred, y_true):.4f}")
+
+# İkili Sınıflama
+print(f"BCE:   {nn.BCELoss()(y_pred, y_true):.4f}")
+
+# Çok Sınıflı
+ce = nn.CrossEntropyLoss()
+logits = torch.randn(3, 3)
+labels = torch.tensor([0, 2, 1])
+print(f"CrossEntropy: {ce(logits, labels):.4f}")
+
+# Hangi loss ne zaman?
+# Regresyon     → MSELoss  /  HuberLoss
+# İkili sınıf   → BCEWithLogitsLoss
+# Çok sınıflı   → CrossEntropyLoss</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 12. EĞİTİM LAB ===================== -->
+    <section class="section" id="training">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">12</div>
+          <div>
+            <h2 class="section-title">Eğitim Laboratuvarı</h2>
+            <p class="section-sub">Epoch, loss takibi ve Early Stopping — canlı çalıştır!</p>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="info-card accent-blue">
+            <div class="card-icon">🔁</div>
+            <h3>Epoch Nedir?</h3>
+            <p>Tüm eğitim verisinin modelden <strong>bir kez geçirilmesi</strong>. 50 epoch = veri 50 kez görüldü.</p>
+          </div>
+          <div class="info-card accent-purple">
+            <div class="card-icon">📦</div>
+            <h3>Batch</h3>
+            <p>Her epoch, veri <strong>parçalara (batch)</strong> ayrılır. Batch_size=32 → 32 örnek birlikte işlenir.</p>
+          </div>
+          <div class="info-card accent-pink">
+            <div class="card-icon">🚨</div>
+            <h3>Early Stopping</h3>
+            <p>Validation loss artmaya başlayınca eğitim <strong>otomatik durdurulur</strong>. Overfitting'i önler.</p>
+          </div>
+        </div>
+
+        <div class="training-lab">
+          <div class="lab-header">
+            <h3>🧪 Canlı Eğitim Simülatörü</h3>
+            <p style="color:var(--text-muted);font-size:.9rem;margin-top:4px">Hiperparametreleri ayarla, eğitimi başlat. Train/Val loss grafiği + Early Stopping uyarısı!</p>
+          </div>
+          <div class="lab-controls">
+            <div class="lab-ctrl-group">
+              <label>Learning Rate</label>
+              <select id="labLR">
+                <option value="0.001">0.001 (Düşük — Yavaş)</option>
+                <option value="0.01" selected>0.01 (Normal)</option>
+                <option value="0.05">0.05 (Yüksek)</option>
+                <option value="0.5">0.5 (Çok Yüksek — Kararsız)</option>
+              </select>
+            </div>
+            <div class="lab-ctrl-group">
+              <label>Max Epoch</label>
+              <select id="labEpochs">
+                <option value="30">30</option>
+                <option value="60" selected>60</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="lab-ctrl-group">
+              <label>Model Kapasitesi</label>
+              <select id="labCapacity">
+                <option value="underfitting">Küçük → Underfitting</option>
+                <option value="good" selected>Orta → İyi Denge</option>
+                <option value="overfitting">Büyük → Overfitting</option>
+              </select>
+            </div>
+            <div class="lab-ctrl-group">
+              <label>Early Stopping Patience</label>
+              <select id="labPatience">
+                <option value="0">Kapalı</option>
+                <option value="5" selected>5 epoch</option>
+                <option value="10">10 epoch</option>
+              </select>
+            </div>
+          </div>
+          <div class="lab-actions">
+            <button class="flow-btn" id="labRunBtn" onclick="runTraining()">▶ Eğitimi Başlat</button>
+            <button class="flow-btn secondary" onclick="resetTraining()">↺ Sıfırla</button>
+          </div>
+          <canvas id="trainingCanvas" width="700" height="300"></canvas>
+          <div class="epoch-panel" id="epochPanel">
+            <div class="ep-metric"><span class="ep-label">Epoch</span><span class="ep-val" id="epEpoch">—</span></div>
+            <div class="ep-metric"><span class="ep-label">Train Loss</span><span class="ep-val train-col" id="epTrainLoss">—</span></div>
+            <div class="ep-metric"><span class="ep-label">Val Loss</span><span class="ep-val val-col" id="epValLoss">—</span></div>
+            <div class="ep-metric"><span class="ep-label">Durum</span><span class="ep-val" id="epStatus">Bekliyor</span></div>
+          </div>
+          <div class="training-alert" id="trainingAlert" style="display:none"></div>
+          <div class="training-log" id="trainingLog">
+            <div class="log-empty">⬆️ Eğitimi başlatmak için butona bas</div>
+          </div>
+        </div>
+
+        <div class="concept-explainer" style="margin-top:32px">
+          <div class="ce-item">
+            <div class="ce-icon">📈</div>
+            <div class="ce-content">
+              <h4>Train ↓ Val ↓ — Her ikisi düşüyor</h4>
+              <p>Model hem eğitim hem test setinde öğreniyor → <strong>Normal, devam et!</strong></p>
+            </div>
+          </div>
+          <div class="ce-item">
+            <div class="ce-icon">⚠️</div>
+            <div class="ce-content">
+              <h4>Train ↓ Val ↑ — Val artıyor</h4>
+              <p>Eğitim verisini ezberliyor → <strong>Overfitting!</strong> Early Stopping / Dropout ekle</p>
+            </div>
+          </div>
+          <div class="ce-item">
+            <div class="ce-icon">🧊</div>
+            <div class="ce-content">
+              <h4>Her ikisi de yüksek kalıyor</h4>
+              <p>Model yeterince karmaşık değil → <strong>Underfitting.</strong> Kapasiteyi artır</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — Tam Eğitim Döngüsü + Early Stopping</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# TAM EĞİTİM DÖNGÜSÜ — PyTorch
+# ============================================================
+import torch, torch.nn as nn
+
+model = nn.Sequential(
+    nn.Linear(10, 64), nn.ReLU(), nn.Dropout(0.2),
+    nn.Linear(64, 32), nn.ReLU(),
+    nn.Linear(32, 1),  nn.Sigmoid()
+)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+loss_fn   = nn.BCELoss()
+
+class EarlyStopping:
+    def __init__(self, patience=5, delta=0.001):
+        self.patience  = patience
+        self.delta     = delta
+        self.counter   = 0
+        self.best_loss = float('inf')
+        self.stop      = False
+
+    def __call__(self, val_loss):
+        if val_loss < self.best_loss - self.delta:
+            self.best_loss = val_loss
+            self.counter = 0
+        else:
+            self.counter += 1
+            if self.counter >= self.patience:
+                self.stop = True
+                print("⛔ Early Stopping tetiklendi!")
+
+early_stop  = EarlyStopping(patience=5)
+train_losses, val_losses = [], []
+
+for epoch in range(100):
+    model.train()
+    pred_train = model(X_train)
+    loss_train = loss_fn(pred_train, y_train)
+    optimizer.zero_grad(); loss_train.backward(); optimizer.step()
+
+    model.eval()
+    with torch.no_grad():
+        loss_val = loss_fn(model(X_val), y_val).item()
+
+    train_losses.append(loss_train.item())
+    val_losses.append(loss_val)
+    print(f"Epoch {epoch+1:3d} | Train: {loss_train.item():.4f} | Val: {loss_val:.4f}")
+
+    early_stop(loss_val)
+    if early_stop.stop:
+        print(f"Eğitim {epoch+1}. epoch'ta durduruldu.")
+        break
+
+import matplotlib.pyplot as plt
+plt.plot(train_losses, label='Train Loss', color='#4f9eff')
+plt.plot(val_losses,   label='Val Loss',   color='#ec4899')
+plt.title('Loss Eğrisi'); plt.xlabel('Epoch'); plt.legend(); plt.show()</code></pre>
+        </div>
+
+        <div class="finish-box" style="margin-top:48px">
+          <div class="finish-icon">🏆</div>
+          <h3>Platform Tamamlandı! Harika İş Çıkardın.</h3>
+          <p>Derin öğrenmenin tüm temel taşlarını öğrendin. Artık kendi modellerini inşa edebilir, eğitebilir ve debug edebilirsin!</p>
+          <div class="finish-chips">
+            <span class="chip">✅ Nöronlar</span>
+            <span class="chip">✅ Ağırlıklar &amp; Bias</span>
+            <span class="chip">✅ Forward Pass</span>
+            <span class="chip">✅ Hidden Layers</span>
+            <span class="chip">✅ Aktivasyon</span>
+            <span class="chip">✅ Backprop</span>
+            <span class="chip">✅ Loss</span>
+            <span class="chip">✅ Epoch &amp; Training</span>
+            <span class="chip">✅ Early Stopping</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 13. CNN ===================== -->
+    <section class="section" id="cnn">
+      <div class="section-inner">
+        <div class="section-header">
+          <div class="section-num">13</div>
+          <div>
+            <h2 class="section-title">CNN — Evrişimli Sinir Ağları</h2>
+            <p class="section-sub">Görüntülerden özellik çeken derin öğrenme mimarisi</p>
+          </div>
+        </div>
+
+        <div class="analogy-box">
+          <div class="analogy-icon">👁️</div>
+          <div>
+            <h3>CNN Neden Özel?</h3>
+            <p>Normal (Dense) katmanlar tüm pikselleri aynı anda işler — bu görüntüler için çok verimsiz ve konum bilgisini yok eder. CNN ise küçük bir <strong>filtre (kernel)</strong> kullanarak görüntü üzerinde <strong>kayarak</strong> yerel örüntüleri (kenar, doku, şekil) tespit eder. Bu yüzden görüntü tanımada kesinlikle CNN kullanılır.</p>
+          </div>
+        </div>
+
+        <!-- Kernel Animasyonu -->
+        <div class="cnn-demo">
+          <div class="cnn-demo-header">
+            <h3>🔍 Kernel (Filtre) — Canlı Konvolüsyon</h3>
+            <p style="color:var(--text-muted);font-size:.9rem;margin-top:4px">Filtre görüntü üzerinde kayarken feature map'in nasıl oluştuğunu izle</p>
+          </div>
+          <div class="cnn-controls">
+            <div class="cnn-ctrl-group">
+              <label>Filtre Tipi</label>
+              <select id="kernelType" onchange="updateKernel()">
+                <option value="edge">Kenar Tespiti (Edge)</option>
+                <option value="blur">Bulanıklaştırma (Blur)</option>
+                <option value="sharpen">Keskinleştirme (Sharpen)</option>
+                <option value="emboss">Kabartma (Emboss)</option>
+              </select>
+            </div>
+            <div class="cnn-ctrl-group">
+              <label>Animasyon Hızı</label>
+              <select id="convSpeed">
+                <option value="300">Yavaş</option>
+                <option value="120" selected>Normal</option>
+                <option value="40">Hızlı</option>
+              </select>
+            </div>
+            <button class="flow-btn" id="convRunBtn" onclick="runConvolution()">▶ Konvolüsyonu Başlat</button>
+            <button class="flow-btn secondary" onclick="resetConvolution()">↺ Sıfırla</button>
+          </div>
+          <div class="cnn-canvas-row">
+            <div class="cnn-panel">
+              <div class="cnn-panel-label">📷 Giriş Görüntüsü (7×7)</div>
+              <canvas id="inputImgCanvas" width="252" height="252"></canvas>
+            </div>
+            <div class="cnn-panel">
+              <div class="cnn-panel-label">🔲 Kernel (3×3)</div>
+              <canvas id="kernelCanvas" width="108" height="108"></canvas>
+              <div class="kernel-formula" id="kernelFormula">Kenar = Laplacian</div>
+            </div>
+            <div class="cnn-arrow">→</div>
+            <div class="cnn-panel">
+              <div class="cnn-panel-label">🗺️ Feature Map (5×5)</div>
+              <canvas id="featureMapCanvas" width="252" height="252"></canvas>
+            </div>
+          </div>
+          <div class="conv-step-info" id="convStepInfo">
+            <span class="conv-badge">Hazır — Başlat butonuna bas</span>
+          </div>
+        </div>
+
+        <!-- CNN Katman Mimarisi -->
+        <div class="cnn-arch">
+          <h3>🏗️ CNN Katman Mimarisi</h3>
+          <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:20px">Görüntü nasıl adım adım işlenir? Adım seçerek incele:</p>
+          <div class="cnn-arch-tabs">
+            <button class="cnn-tab active" data-arch="conv" onclick="selectArch('conv')">1. Conv Katmanı</button>
+            <button class="cnn-tab" data-arch="relu" onclick="selectArch('relu')">2. ReLU</button>
+            <button class="cnn-tab" data-arch="pool" onclick="selectArch('pool')">3. Pooling</button>
+            <button class="cnn-tab" data-arch="fc" onclick="selectArch('fc')">4. Flatten + FC</button>
+          </div>
+          <div class="cnn-arch-content">
+            <canvas id="cnnArchCanvas" width="680" height="200"></canvas>
+            <div class="cnn-arch-info" id="cnnArchInfo">
+              <div class="cai-title" id="caiTitle">🔁 Evrişim (Convolution)</div>
+              <div class="cai-text" id="caiText">Kernel giriş görüntüsü üzerinde kayar. Her pozisyonda eleman-eleman çarpım + toplam hesaplanır. Çıktı: Feature Map.</div>
+              <div class="cai-formula" id="caiFormula">(H - K + 1) × (W - K + 1) × Filtre_Sayısı</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CNN ne öğrenir -->
+        <div class="cnn-features">
+          <h3>🎨 Her Katman Ne Öğrenir?</h3>
+          <div class="cnnf-grid">
+            <div class="cnnf-item">
+              <canvas id="feat1Canvas" width="100" height="100"></canvas>
+              <strong>Katman 1</strong>
+              <p>Kenarlar &amp; çizgiler</p>
+            </div>
+            <div class="cnnf-arrow">→</div>
+            <div class="cnnf-item">
+              <canvas id="feat2Canvas" width="100" height="100"></canvas>
+              <strong>Katman 2</strong>
+              <p>Köşeler &amp; dokular</p>
+            </div>
+            <div class="cnnf-arrow">→</div>
+            <div class="cnnf-item">
+              <canvas id="feat3Canvas" width="100" height="100"></canvas>
+              <strong>Katman 3</strong>
+              <p>Parçalar (göz, kulak)</p>
+            </div>
+            <div class="cnnf-arrow">→</div>
+            <div class="cnnf-item">
+              <canvas id="feat4Canvas" width="100" height="100"></canvas>
+              <strong>Çıktı</strong>
+              <p>Nesne (kedi, köpek…)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parametreler -->
+        <div class="cnn-params-box">
+          <h3>⚙️ CNN Parametre Hesaplama</h3>
+          <div class="cnn-params-controls">
+            <div class="cparam-group">
+              <label>Giriş Boyutu (H=W)</label>
+              <input type="number" id="cpInput" value="28" min="8" max="224" oninput="calcCNNParams()" />
+            </div>
+            <div class="cparam-group">
+              <label>Kernel Boyutu</label>
+              <input type="number" id="cpKernel" value="3" min="1" max="7" oninput="calcCNNParams()" />
+            </div>
+            <div class="cparam-group">
+              <label>Filtre Sayısı</label>
+              <input type="number" id="cpFilters" value="32" min="1" max="512" oninput="calcCNNParams()" />
+            </div>
+            <div class="cparam-group">
+              <label>Stride</label>
+              <input type="number" id="cpStride" value="1" min="1" max="4" oninput="calcCNNParams()" />
+            </div>
+            <div class="cparam-group">
+              <label>Padding</label>
+              <select id="cpPad" onchange="calcCNNParams()">
+                <option value="0" selected>0 (Valid)</option>
+                <option value="1">1 (Same için K=3)</option>
+                <option value="2">2 (Same için K=5)</option>
+              </select>
+            </div>
+          </div>
+          <div class="cnn-params-result" id="cnnParamsResult"></div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Python — CNN Mimarisi (PyTorch)</span><button class="copy-btn" onclick="copyCode(this)">📋 Kopyala</button></div>
+          <pre><code class="py"># ============================================================
+# CNN MİMARİSİ — PyTorch
+# ============================================================
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class SimpleCNN(nn.Module):
+    def __init__(self, num_classes=10):
+        super().__init__()
+        # Block 1: Conv → BN → ReLU → MaxPool
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)  # (1,28,28) → (32,28,28)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1) # (32,28,28) → (64,28,28)
+        self.pool  = nn.MaxPool2d(2, 2)                           # Her uygulamada %50 küçülür
+
+        # Block 2: Flatten → FC → Dropout → Çıktı
+        self.fc1  = nn.Linear(64 * 7 * 7, 128)                   # 28 → pool → 14 → pool → 7
+        self.fc2  = nn.Linear(128, num_classes)
+        self.drop = nn.Dropout(0.3)
+
+    def forward(self, x):
+        # Konvolüsyon bloku 1
+        x = F.relu(self.conv1(x))   # Kenar & basit özellikler
+        x = self.pool(x)            # 28×28 → 14×14
+
+        # Konvolüsyon bloku 2
+        x = F.relu(self.conv2(x))   # Karmaşık özellikler
+        x = self.pool(x)            # 14×14 → 7×7
+
+        # Flatten + Fully Connected
+        x = x.view(x.size(0), -1)   # (batch, 64*7*7)
+        x = F.relu(self.fc1(x))
+        x = self.drop(x)
+        x = self.fc2(x)             # Ham logits
+        return x
+
+model = SimpleCNN(num_classes=10)
+print(model)
+
+# Parametre sayısını gör
+total = sum(p.numel() for p in model.parameters())
+print(f"Toplam Parametre: {total:,}")
+
+# ============================================================
+# EĞİTİM — MNIST örneği
+# ============================================================
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+])
+train_data = datasets.MNIST('./data', train=True,  download=True, transform=transform)
+test_data  = datasets.MNIST('./data', train=False, download=True, transform=transform)
+
+train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
+test_loader  = DataLoader(test_data,  batch_size=64)
+
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+loss_fn   = nn.CrossEntropyLoss()
+
+for epoch in range(5):
+    model.train()
+    for X, y in train_loader:
+        pred = model(X)
+        loss = loss_fn(pred, y)
+        optimizer.zero_grad(); loss.backward(); optimizer.step()
+    model.eval()
+    correct = sum((model(X).argmax(1) == y).sum().item()
+                  for X, y in test_loader)
+    print(f"Epoch {epoch+1} | Test Acc: {correct/len(test_data)*100:.2f}%")</code></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>🧠 Derin Öğrenme İnteraktif Eğitim Platformu — Kod, Görsel, Anlayış</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
