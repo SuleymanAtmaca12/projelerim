@@ -1,6 +1,6 @@
 # Projelerim
 
-Sınıf ve atölye arayüzlerinin vitrini.
+Sınıf ve atölye arayüzlerinin vitrini: [SuleymanAtmaca12/projelerim](https://github.com/SuleymanAtmaca12/projelerim)
 
 Kaynak kod (Python, modeller, agent’lar) bu repoda yok. Sadece denenebilir arayüzler var.
 
