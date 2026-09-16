@@ -113,6 +113,10 @@ window.PROJECTS = [
     category: "Agent & LLM",
     badge: "Canlı arayüz",
     live: "demos/berber/index.html",
+    extraPages: [
+      { label: "Sohbet", url: "demos/berber/index.html" },
+      { label: "Admin", url: "demos/berber/admin.html" }
+    ],
     folder: "berber_projesi",
     stack: ["Python", "Flask", "SQLite", "LM Studio", "Tool calling"],
     description: "Berber randevusu alan sohbet asistanı ve admin randevu listesi.",
@@ -131,6 +135,9 @@ window.PROJECTS = [
     category: "Agent & LLM",
     badge: "Canlı arayüz",
     live: "demos/disci/index.html",
+    extraPages: [
+      { label: "Sohbet", url: "demos/disci/index.html" }
+    ],
     folder: "disci_asistan",
     stack: ["Python", "Flask", "SQLite", "OpenAI tools", "LM Studio"],
     description: "Fiyat, müsait slot ve randevu kaydı için tool kullanan klinik asistanı.",

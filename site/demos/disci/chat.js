@@ -19,9 +19,16 @@ function addMsg(role, text) {
   chatEl.scrollTop = chatEl.scrollHeight;
 }
 
+function send(text) {
+  const message = (text || "").trim();
+  if (!message) return;
+  addMsg("user", message);
+  addMsg("assistant", replyFor(message));
+}
+
 function replyFor(text) {
   const t = text.toLowerCase();
-  if (/(fiyat|ücret|dolgu|kanal|beyazlat)/.test(t)) {
+  if (/(fiyat|ücret|dolgu|kanal|beyazlat|muayene)/.test(t)) {
     return "Fiyat listesi:\n• Muayene 750 TL\n• Dolgu 2.500 TL\n• Kanal 4.500 TL\n• Beyazlatma 6.000 TL\nRandevu için 2026-02-04 - 2026-02-06 gibi bir aralık yaz.";
   }
   if (/(2026|tarih|aralık|-)/.test(t)) {
@@ -45,10 +52,14 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   const message = input.value.trim();
   if (!message) return;
-  addMsg("user", message);
   input.value = "";
-  addMsg("assistant", replyFor(message));
+  send(message);
 });
 
 resetBtn.addEventListener("click", resetChat);
+
+document.querySelectorAll("[data-msg]").forEach((btn) => {
+  btn.addEventListener("click", () => send(btn.getAttribute("data-msg")));
+});
+
 resetChat();

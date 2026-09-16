@@ -5,7 +5,25 @@
 // ============================================================
 // INIT
 // ============================================================
+function layoutVizAndCode() {
+  document.querySelectorAll('.code-block').forEach((block) => {
+    if (block.parentElement?.classList.contains('viz-code')) return;
+    const prev = block.previousElementSibling;
+    if (!prev) return;
+    const visual = prev.tagName === 'CANVAS'
+      || prev.querySelector?.('canvas')
+      || ['neuron-demo', 'weight-interactive', 'hierarchy-diagram', 'multi-info', 'cnn-stage'].some((cls) => prev.classList.contains(cls));
+    if (!visual) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'viz-code';
+    prev.parentNode.insertBefore(wrap, prev);
+    wrap.appendChild(prev);
+    wrap.appendChild(block);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  layoutVizAndCode();
   createScrollProgress();
   createNavToggle();
   createHeroParticles();
@@ -105,7 +123,7 @@ function createHeroParticles() {
 // ============================================================
 function drawHeroNetwork() {
   const container = document.getElementById('heroNetwork');
-  const W = Math.min(400, window.innerWidth * 0.35);
+  const W = Math.min(400, Math.max(180, (container.clientWidth || window.innerWidth * 0.35)));
   const H = 480;
   const cvs = document.createElement('canvas');
   cvs.width = W; cvs.height = H;

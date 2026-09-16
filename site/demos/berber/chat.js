@@ -19,6 +19,13 @@ function addMsg(role, text) {
   chatEl.scrollTop = chatEl.scrollHeight;
 }
 
+function send(text) {
+  const msg = (text || "").trim();
+  if (!msg) return;
+  addMsg("user", msg);
+  addMsg("assistant", replyFor(msg));
+}
+
 function replyFor(text) {
   const t = text.toLowerCase();
   if (/(fiyat|ücret|kaç)/.test(t)) {
@@ -45,10 +52,14 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   const msg = input.value.trim();
   if (!msg) return;
-  addMsg("user", msg);
   input.value = "";
-  addMsg("assistant", replyFor(msg));
+  send(msg);
 });
 
 resetBtn.addEventListener("click", resetChat);
+
+document.querySelectorAll("[data-msg]").forEach((btn) => {
+  btn.addEventListener("click", () => send(btn.getAttribute("data-msg")));
+});
+
 resetChat();

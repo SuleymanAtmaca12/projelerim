@@ -2,26 +2,71 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Berber Asistan</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>💈 Berber Asistan</h1>
-      <div class="actions">
-        <button id="resetBtn">Sohbeti Sıfırla</button>
+  <div class="app">
+    <aside class="rail">
+      <div class="brand">
+        <div class="logo">💈</div>
+        <div>
+          <strong>Salon 34</strong>
+          <span>Randevu asistanı</span>
+        </div>
       </div>
-    </header>
 
-    <div id="chat" class="chat"></div>
+      <h2>Hizmetler</h2>
+      <div class="cards">
+        <button class="svc" data-msg="Saç kesimi fiyatı nedir?">
+          <b>Saç kesimi</b>
+          <span>250 TL · 30 dk</span>
+        </button>
+        <button class="svc" data-msg="Sakal tıraşı fiyatı nedir?">
+          <b>Sakal</b>
+          <span>150 TL · 20 dk</span>
+        </button>
+        <button class="svc" data-msg="Komple paket fiyatı nedir?">
+          <b>Komple paket</b>
+          <span>350 TL · 50 dk</span>
+        </button>
+      </div>
 
-    <form id="form" class="composer">
-      <input id="input" type="text" placeholder="Mesaj yaz..." autocomplete="off" />
-      <button type="submit">Gönder</button>
-    </form>
+      <h2>Berberler</h2>
+      <div class="people">
+        <div class="person"><i>A</i><div><b>Ahmet</b><span>Yarın 11:00</span></div></div>
+        <div class="person"><i>M</i><div><b>Mehmet</b><span>Yarın 14:30</span></div></div>
+        <div class="person"><i>L</i><div><b>Ali</b><span>Yarın 16:00</span></div></div>
+      </div>
+
+      <a class="admin-link" href="admin.html">🛠 Admin randevu listesi</a>
+    </aside>
+
+    <section class="stage">
+      <header>
+        <div>
+          <p class="kicker">WhatsApp tarzı sohbet</p>
+          <h1>Berber Asistan</h1>
+        </div>
+        <button id="resetBtn" type="button">Sıfırla</button>
+      </header>
+
+      <div id="chat" class="chat"></div>
+
+      <div class="chips" id="chips">
+        <button type="button" data-msg="Fiyatlar nedir?">Fiyatlar</button>
+        <button type="button" data-msg="Yarın uygun saat var mı?">Uygun saat</button>
+        <button type="button" data-msg="1">1. saati seç</button>
+        <button type="button" data-msg="onaylıyorum">Onayla</button>
+      </div>
+
+      <form id="form" class="composer">
+        <input id="input" type="text" placeholder="Saç, sakal, komple veya randevu yaz..." autocomplete="off" />
+        <button type="submit">Gönder</button>
+      </form>
+    </section>
   </div>
-
   <script src="chat.js"></script>
 </body>
 </html>

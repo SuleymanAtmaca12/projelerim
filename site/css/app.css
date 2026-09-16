@@ -91,12 +91,14 @@ a { color: inherit; }
 .sidebar-foot p { color: var(--muted); font-size: 12px; margin: 10px 0 0; }
 
 .main {
+  position: relative;
   min-width: 0;
-  display: grid;
-  grid-template-rows: 64px 1fr;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 .topbar {
+  flex: 0 0 64px;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -104,6 +106,7 @@ a { color: inherit; }
   border-bottom: 1px solid var(--line);
   background: rgba(11, 16, 32, 0.7);
   backdrop-filter: blur(10px);
+  z-index: 2;
 }
 .crumb { display: flex; gap: 8px; align-items: center; }
 .crumb .sep, #crumbCat { color: var(--muted); }
@@ -133,7 +136,8 @@ button { border: 0; cursor: pointer; font: inherit; }
 }
 
 .home, .workspace, .showcase { overflow: auto; min-height: 0; }
-.home { padding: 28px 32px 48px; }
+.home { flex: 1; padding: 28px 32px 48px; }
+.showcase { flex: 1; }
 .hero {
   background:
     radial-gradient(circle at 90% 10%, rgba(96, 165, 250, 0.18), transparent 26%),
@@ -195,12 +199,21 @@ button { border: 0; cursor: pointer; font: inherit; }
 .card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; flex: 1; }
 .meta { font-size: 12px; color: #7dd3fc; }
 
-.workspace { position: relative; background: #070b16; }
+.workspace {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #070b16;
+}
 .workspace iframe {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
-  background: #fff;
+  background: #070b16;
 }
 
 .showcase { padding: 28px 32px 56px; }
